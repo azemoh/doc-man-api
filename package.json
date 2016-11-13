@@ -1,0 +1,23 @@
+{
+  "name": "doc-man",
+  "version": "1.0.0",
+  "description": "Document Management System API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azemoh/doc-man.git"
+  },
+  "keywords": [
+    "API",
+    "sequelize"
+  ],
+  "author": "Joshua Azemoh <joshazemoh@gmail.com> (http://azemoh.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azemoh/doc-man/issues"
+  },
+  "homepage": "https://github.com/azemoh/doc-man#readme"
+}
