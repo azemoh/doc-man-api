@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb-base/legacy",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "func-names": [2, "never"]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "require": true
+  }
+}
