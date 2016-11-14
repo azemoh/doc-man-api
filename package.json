@@ -4,9 +4,9 @@
   "description": "Document Management System API",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon server.js",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul cover _mocha -- -R spec test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,9 @@
   "devDependencies": {
     "eslint": "^3.10.0",
     "eslint-config-airbnb-base": "^10.0.1",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2",
+    "supertest": "^2.0.1"
   }
 }
