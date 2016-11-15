@@ -1,4 +1,5 @@
 const app = require('./config/app');
+
 const port = process.env.PORT || 4000;
 
 // Start server

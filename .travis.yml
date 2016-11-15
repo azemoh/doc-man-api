@@ -1,0 +1,8 @@
+language: node_js
+
+node_js:
+  - node
+  - 6
+
+after_script:
+  - node node_modules/codeclimate-test-reporter/bin/codeclimate < coverage/lcov.info
