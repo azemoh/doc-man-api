@@ -6,14 +6,14 @@
 [![Issue Count][issues-image]][issues-url]
 
 
-[travis-url]: https://travis-ci.org/azemoh/doc-man
-[travis-image]: https://travis-ci.org/azemoh/doc-man.svg
+[travis-url]: https://travis-ci.org/azemoh/doc-man-api
+[travis-image]: https://travis-ci.org/azemoh/doc-man-api.svg
 
-[codeclimate-url]: https://codeclimate.com/github/azemoh/doc-man
-[codeclimate-image]: https://codeclimate.com/github/azemoh/doc-man/badges/gpa.svg
+[codeclimate-url]: https://codeclimate.com/github/azemoh/doc-man-api
+[codeclimate-image]: https://codeclimate.com/github/azemoh/doc-man-api/badges/gpa.svg
 
-[test-coverage-url]: https://codeclimate.com/github/azemoh/doc-man/coverage
-[test-coverage-image]: https://codeclimate.com/github/azemoh/doc-man/badges/coverage.svg
+[test-coverage-url]: https://codeclimate.com/github/azemoh/doc-man-api/coverage
+[test-coverage-image]: https://codeclimate.com/github/azemoh/doc-man-api/badges/coverage.svg
 
-[issues-image]: https://codeclimate.com/github/azemoh/doc-man/badges/issue_count.svg
-[issues-url]: https://codeclimate.com/github/azemoh/doc-man
+[issues-image]: https://codeclimate.com/github/azemoh/doc-man-api/badges/issue_count.svg
+[issues-url]: https://codeclimate.com/github/azemoh/doc-man-api

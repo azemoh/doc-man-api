@@ -1,5 +1,5 @@
 {
-  "name": "doc-man",
+  "name": "doc-man-api",
   "version": "1.0.0",
   "description": "Document Management System API",
   "main": "app.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/azemoh/doc-man.git"
+    "url": "git+https://github.com/azemoh/doc-man-api.git"
   },
   "keywords": [
     "API",
@@ -19,9 +19,9 @@
   "author": "Joshua Azemoh <joshazemoh@gmail.com> (http://azemoh.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azemoh/doc-man/issues"
+    "url": "https://github.com/azemoh/doc-man-api/issues"
   },
-  "homepage": "https://github.com/azemoh/doc-man#readme",
+  "homepage": "https://github.com/azemoh/doc-man-api#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
