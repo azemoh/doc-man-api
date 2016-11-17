@@ -1,14 +1,16 @@
 {
-  "name": "doc-man",
+  "name": "doc-man-api",
   "version": "1.0.0",
   "description": "Document Management System API",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "lint": "eslint .",
+    "test": "istanbul cover _mocha -- -R spec test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/azemoh/doc-man.git"
+    "url": "git+https://github.com/azemoh/doc-man-api.git"
   },
   "keywords": [
     "API",
@@ -17,7 +19,21 @@
   "author": "Joshua Azemoh <joshazemoh@gmail.com> (http://azemoh.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azemoh/doc-man/issues"
+    "url": "https://github.com/azemoh/doc-man-api/issues"
   },
-  "homepage": "https://github.com/azemoh/doc-man#readme"
+  "homepage": "https://github.com/azemoh/doc-man-api#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.10.0",
+    "eslint-config-airbnb-base": "^10.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2",
+    "supertest": "^2.0.1"
+  }
 }
