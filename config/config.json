@@ -1,0 +1,27 @@
+{
+  "development": {
+    "username": null,
+    "password": null,
+    "database": "doc_man_development",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": null,
+    "password": null,
+    "database": "doc_man_test",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "dialect": "postgres",
+    "logging": false
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "username": "root",
+    "password": null,
+    "database": "doc_man_production",
+    "protocol": "postgres",
+    "dialect": "postgres"
+  }
+}
