@@ -1,10 +1,27 @@
 module.exports = (sequelize, DataTypes) =>
   sequelize.define('User', {
-    username: DataTypes.STRING,
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    username: {
+      unique: true,
+      type: DataTypes.STRING
+    },
+    firstName: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    lastName: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    email: {
+      allowNull: false,
+      isEmail: true,
+      unique: true,
+      type: DataTypes.STRING
+    },
+    password: {
+      allowNull: false,
+      type: DataTypes.STRING
+    }
   }, {
     classMethods: {
       associate(models) {
