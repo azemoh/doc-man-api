@@ -23,9 +23,9 @@ describe('User model', () => {
   // clear DB after each test
   afterEach(() => User.sequelize.sync({ force: true }));
 
-  describe('Create', () => {
+  describe('Create user', () => {
     it('creates a User instance', () =>
-      expect(user).not.to.be.null);
+      expect(user).to.exist);
 
     it('has both first and last name', () => {
       expect(user.firstName).to.equal(params.firstName);
