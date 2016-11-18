@@ -7,9 +7,12 @@
     "start": "nodemon server.js",
     "lint": "eslint .",
     "test": "NODE_ENV=test istanbul cover _mocha -- -R spec test/**/*.spec.js",
-    "db:create": "gulp db:create && NODE_ENV=test gulp db:create",
-    "db:migrate": "sequelize db:migrate && NODE_ENV=test sequelize db:migrate",
-    "db:setup": "npm run db:create && npm run db:migrate"
+    "db:create": "gulp db:create",
+    "db:migrate": "sequelize db:migrate",
+    "db:setup": "npm run db:create && npm run db:migrate",
+    "db:create:test": "NODE_ENV=test gulp db:create",
+    "db:migrate:test": "NODE_ENV=test sequelize db:migrate",
+    "db:setup:test": "npm run db:create:test && npm run db:migrate:test"
   },
   "repository": {
     "type": "git",
