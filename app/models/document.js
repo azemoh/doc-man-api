@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) =>
-  sequelize.define('Document', {
+module.exports = (sequelize, DataTypes) => {
+  const Document = sequelize.define('Document', {
     title: {
       allowNull: false,
       type: DataTypes.STRING
@@ -7,11 +7,19 @@ module.exports = (sequelize, DataTypes) =>
     content: {
       allowNull: false,
       type: DataTypes.TEXT
-    }
+    },
+    OwnerId: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate(models) {
-        // associations can be defined here
+        Document.belongsTo(models.User, {
+          as: 'Owner',
+          onDelete: 'CASCADE',
+          foreignKey: { allowNull: false }
+        });
       }
     }
   });
+
+  return Document;
+};
