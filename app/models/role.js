@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) =>
-  sequelize.define('Role', {
+module.exports = (sequelize, DataTypes) => {
+  const Role = sequelize.define('Role', {
     title: {
       unique: true,
       allowNull: false,
@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) =>
   }, {
     classMethods: {
       associate(models) {
-        // associations can be defined here
+        Role.hasMany(models.User);
       }
     }
   });
+
+  return Role;
+};

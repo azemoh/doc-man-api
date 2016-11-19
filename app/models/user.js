@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) =>
-  sequelize.define('User', {
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
     username: {
       unique: true,
       type: DataTypes.STRING
@@ -21,11 +21,18 @@ module.exports = (sequelize, DataTypes) =>
     password: {
       allowNull: false,
       type: DataTypes.STRING
-    }
+    },
+    RoleId: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate(models) {
-        // associations can be defined here
+        User.belongsTo(models.Role, {
+          onDelete: 'CASCADE',
+          foreignKey: { allowNull: false }
+        });
       }
     }
   });
+
+  return User;
+};
