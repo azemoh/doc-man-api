@@ -17,7 +17,7 @@ describe('Role model', () => {
     it('creates a Role instance', () =>
       expect(role).to.exist);
 
-    it('has both first and last name', () => {
+    it('has a title', () => {
       expect(role.title).to.equal(params.title);
     });
 
@@ -38,7 +38,7 @@ describe('Role model', () => {
       role.save();
 
       Role.build(params).save()
-        .then(newUser => expect(newUser).to.not.exist)
+        .then(newRole => expect(newRole).to.not.exist)
         .catch(err =>
           expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true);
     });
