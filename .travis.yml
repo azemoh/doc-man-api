@@ -1,8 +1,15 @@
 language: node_js
 
 node_js:
-  - node
+  - 7
   - 6
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database doc_man_test;' -U postgres
+  - npm run db:migrate:test
 
 after_script:
   - node node_modules/codeclimate-test-reporter/bin/codeclimate < coverage/lcov.info
