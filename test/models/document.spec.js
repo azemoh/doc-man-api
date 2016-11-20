@@ -1,23 +1,26 @@
 const expect = require('chai').expect;
-const Document = require('../../app/models').Document;
+const db = require('../../app/models');
+const helper = require('../test.helper');
 
-const params = {
-  title: 'document 1',
-  content: 'document 1 content'
-};
+const params = helper.document;
+const userParams = helper.user;
 
-const notNullAttrs = ['title', 'content'];
+
+const notNullAttrs = ['title', 'content', 'OwnerId'];
 
 let document;
 
 describe('Document model', () => {
-  beforeEach(() => {
-    document = Document.build(params);
-    return Document.sequelize.sync({ force: true });
-  });
+  beforeEach(() =>
+    db.User.build(userParams).save()
+      .then((owner) => {
+        document = db.Document.build(params);
+        document.OwnerId = owner.id;
+      })
+  );
 
   // clear DB after each test
-  afterEach(() => Document.sequelize.sync({ force: true }));
+  afterEach(() => db.Document.sequelize.sync({ force: true }));
 
   describe('Create document', () => {
     it('creates a Document instance', () =>
@@ -32,7 +35,8 @@ describe('Document model', () => {
       document.save().then((newDoc) => {
         expect(newDoc.title).to.equal(document.title);
         expect(newDoc.content).to.equal(document.content);
-      }));
+      }).catch(err => expect(err).to.not.exist)
+    );
   });
 
   describe('Validations', () => {

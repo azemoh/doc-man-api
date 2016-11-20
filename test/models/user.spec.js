@@ -1,13 +1,6 @@
 const expect = require('chai').expect;
 const User = require('../../app/models').User;
-
-const params = {
-  username: 'johndoe',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'john@mail.com',
-  password: 'passjejkke'
-};
+const params = require('../test.helper').user;
 
 const notNullAttrs = ['firstName', 'lastName', 'email', 'password'];
 const uniqueAttrs = ['username', 'email'];
@@ -17,7 +10,6 @@ let user;
 describe('User model', () => {
   beforeEach(() => {
     user = User.build(params);
-    return User.sequelize.sync({ force: true });
   });
 
   // clear DB after each test
