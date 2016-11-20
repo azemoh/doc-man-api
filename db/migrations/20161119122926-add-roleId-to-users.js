@@ -3,7 +3,7 @@ module.exports = {
     return queryInterface.addColumn('Users', 'RoleId', Sequelize.INTEGER);
   },
 
-  down(queryInterface, Sequelize) {
+  down(queryInterface) {
     return queryInterface.removeColumn('Users', 'RoleId');
   }
 };
