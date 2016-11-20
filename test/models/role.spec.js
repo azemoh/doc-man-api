@@ -26,17 +26,17 @@ describe('Role model', () => {
   });
 
   describe('Validations', () => {
-    it('fails without a title', () => {
-      Role.build({}).save()
+    it('fails without a title', () =>
+      Role.create({})
         .then(newRole => expect(newRole).to.not.exist)
         .catch(err =>
-          expect(/notNull/.test(err.message)).to.be.true);
-    });
+          expect(/notNull/.test(err.message)).to.be.true)
+    );
 
     it('fails for non unique title', () => {
       role.save();
 
-      Role.build(params).save()
+      return Role.create(params)
         .then(newRole => expect(newRole).to.not.exist)
         .catch(err =>
           expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true);

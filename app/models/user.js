@@ -22,7 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    RoleId: DataTypes.INTEGER,
+    RoleId: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    }
   }, {
     classMethods: {
       associate(models) {

@@ -1,19 +1,25 @@
 const expect = require('chai').expect;
-const User = require('../../app/models').User;
-const params = require('../test.helper').user;
+const db = require('../../app/models');
+const helper = require('../test.helper');
 
-const notNullAttrs = ['firstName', 'lastName', 'email', 'password'];
+const params = helper.user;
+const roleParams = helper.role;
+
+const notNullAttrs = ['firstName', 'lastName', 'email', 'password', 'RoleId'];
 const uniqueAttrs = ['username', 'email'];
 
 let user;
 
 describe('User model', () => {
-  beforeEach(() => {
-    user = User.build(params);
-  });
+  beforeEach(() =>
+    db.Role.build(roleParams).save()
+      .then((role) => {
+        user = db.User.build(params);
+        user.RoleId = role.id;
+      }));
 
   // clear DB after each test
-  afterEach(() => User.sequelize.sync({ force: true }));
+  afterEach(() => db.User.sequelize.sync({ force: true }));
 
   describe('Create user', () => {
     it('creates a User instance', () =>
@@ -27,6 +33,13 @@ describe('User model', () => {
     it('saves user with valid attributes', () =>
       user.save().then(newUser =>
         expect(newUser.firstName).to.equal(user.firstName)));
+
+    it('has a role defined', () =>
+      user.save().then(newUser =>
+        db.User.findById(newUser.id, { include: [db.Role] })
+          .then((foundUser) => {
+            expect(foundUser.Role.title).to.equal(roleParams.title);
+          })));
   });
 
   describe('Validations', () => {
@@ -35,7 +48,7 @@ describe('User model', () => {
         it(`fails without ${attr}`, () => {
           user[attr] = null;
 
-          user.save()
+          return user.save()
             .then(newUser => expect(newUser).to.not.exist)
             .catch(err =>
               expect(/notNull/.test(err.message)).to.be.true);
@@ -45,14 +58,16 @@ describe('User model', () => {
 
     describe('UNIQUE attributes', () => {
       uniqueAttrs.forEach((attr) => {
-        it(`fails for non unique ${attr}`, () => {
-          user.save();
+        it(`fails for non unique ${attr}`, () =>
+          user.save().then((newUser) => {
+            const user2 = db.User.build(params);
+            user2.RoleId = newUser.RoleId;
 
-          User.build(params).save()
-            .then(newUser => expect(newUser).to.not.exist)
-            .catch(err =>
-              expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true);
-        });
+            return user2.save()
+              .then(newUser2 => expect(newUser2).to.not.exist)
+              .catch(err =>
+                expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true);
+          }));
       });
     });
   });

@@ -12,11 +12,15 @@ let document;
 
 describe('Document model', () => {
   beforeEach(() =>
-    db.User.build(userParams).save()
-      .then((owner) => {
-        document = db.Document.build(params);
-        document.OwnerId = owner.id;
-      })
+    db.Role.create(helper.role).then((role) => {
+      const user = db.User.build(userParams);
+      user.RoleId = role.id;
+      return user.save()
+        .then((owner) => {
+          document = db.Document.build(params);
+          document.OwnerId = owner.id;
+        });
+    })
   );
 
   // clear DB after each test
@@ -45,7 +49,7 @@ describe('Document model', () => {
         it(`fails without ${attr}`, () => {
           document[attr] = null;
 
-          document.save()
+          return document.save()
             .then(newDoc => expect(newDoc).to.not.exist)
             .catch(err =>
               expect(/notNull/.test(err.message)).to.be.true);
