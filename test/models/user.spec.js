@@ -70,5 +70,13 @@ describe('User model', () => {
           }));
       });
     });
+
+    it('fails for invalid email', () => {
+      user.email = 'invalid email';
+      return user.save()
+        .then(newUser => expect(newUser).to.not.exist)
+        .catch(err =>
+          expect(/isEmail failed/.test(err.message)).to.be.true);
+    });
   });
 });

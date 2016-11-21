@@ -2,11 +2,11 @@ module.exports = {
   up(queryInterface) {
     return queryInterface.bulkInsert('Roles', [
       {
-        title: 'Admin',
+        title: 'admin',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
-        title: 'Regular',
+        title: 'regular',
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -15,7 +15,7 @@ module.exports = {
 
   down(queryInterface) {
     return queryInterface.bulkDelete('Roles',
-       { title: ['Admin', 'Regular'] }
+       { title: ['admin', 'regular'] }
     );
   }
 };
