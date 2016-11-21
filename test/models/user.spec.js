@@ -40,6 +40,10 @@ describe('User model', () => {
           .then((foundUser) => {
             expect(foundUser.Role.title).to.equal(roleParams.title);
           })));
+
+    it('creates user and hashes password', () =>
+      user.save().then(newUser =>
+          expect(newUser.password).to.not.equal(params.password)));
   });
 
   describe('Validations', () => {
@@ -78,5 +82,15 @@ describe('User model', () => {
         .catch(err =>
           expect(/isEmail failed/.test(err.message)).to.be.true);
     });
+  });
+
+  describe('user.validPassword', () => {
+    it('valid for correct password', () =>
+      user.save().then(newUser =>
+        expect(newUser.validPassword(params.password)).to.be.true));
+
+    it('invalid for incorrect password', () =>
+      user.save().then(newUser =>
+        expect(newUser.validPassword('invalid password')).to.be.false));
   });
 });
