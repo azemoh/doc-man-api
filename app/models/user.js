@@ -45,12 +45,22 @@ module.exports = (sequelize, DataTypes) => {
     instanceMethods: {
       validPassword(password) {
         return bcrypt.compareSync(password, this.password);
+      },
+
+      hashPassword() {
+        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
       }
     },
 
     hooks: {
       beforeCreate(user) {
-        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
+        user.hashPassword();
+      },
+
+      beforeUpdate(user) {
+        if (user._changed.password) {
+          user.hashPassword();
+        }
       }
     }
   });
