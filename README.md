@@ -20,6 +20,16 @@ DELETE | /users/:id | Delete a user
 POST | /users/login | Logs a user in
 POST | /users/logout | Logs a user out
 
+### Documents
+
+Http verb | Endpoint | Description
+------------|----------|-------------
+POST | /documents | Create a new document
+GET | /documents | Get all documents
+GET | /documents/:id | Get a particular document
+PUT | /documents/:id | Update document attribute
+DELETE | /documents/:id | Delete a document
+
 [travis-url]: https://travis-ci.org/azemoh/doc-man-api
 [travis-image]: https://travis-ci.org/azemoh/doc-man-api.svg
 

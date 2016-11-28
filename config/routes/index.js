@@ -1,4 +1,5 @@
 const users = require('./users');
+const documents = require('./documents');
 
 module.exports = (app) => {
   // Index route
@@ -7,4 +8,5 @@ module.exports = (app) => {
   });
 
   app.use('/users', users);
+  app.use('/documents', documents);
 };
