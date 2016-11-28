@@ -1,4 +1,7 @@
+const jwt = require('jsonwebtoken');
 const db = require('../models');
+
+const secret = process.env.SECRET_TOKEN || 'super duper secret';
 
 const usersCtrl = {
   /**
@@ -32,10 +35,16 @@ const usersCtrl = {
         db.User.create(req.body)
           .then((user) => {
             if (!user) {
-              res.status(400).send({ message: 'Failed to create user' });
+              return res.status(400)
+                .send({ message: 'Failed to create user' });
             }
 
-            res.status(201).send(user);
+            const token = jwt.sign({
+              UserId: user.id,
+              RoleId: user.RoleId
+            }, secret, { expiresIn: 86400 });
+
+            res.send({ token, expiresIn: 86400 });
           })
           .catch((err) => {
             res.status(400).send(err.errors);
@@ -77,9 +86,10 @@ const usersCtrl = {
             .send({ message: `User with id: ${req.params.id} not found` });
         }
 
-        user.update(req.body).then((updatedUser) => {
-          res.send(updatedUser);
-        });
+        user.update(req.body)
+          .then((updatedUser) => {
+            res.send(updatedUser);
+          });
       });
   },
 
@@ -101,7 +111,33 @@ const usersCtrl = {
         user.destroy();
         res.send({ message: 'User deleted succeffully.' });
       });
-  }
+  },
+
+  /**
+   * Login user
+   * Route: POST: /users/login
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {Response|Void} response object or void
+   */
+  login(req, res) {
+    db.User.findOne({ where: { email: req.body.email } })
+      .then((user) => {
+        if (user && user.validPassword(req.body.password)) {
+          const token = jwt.sign({
+            UserId: user.id,
+            RoleId: user.RoleId
+          }, secret, { expiresIn: 86400 });
+
+          res.send({ token, expiresIn: 86400 });
+        } else {
+          res.status(401)
+            .send({ message: 'Failed to authenticate.' });
+        }
+      });
+  },
+
+  logout(req, res) {}
 };
 
 module.exports = usersCtrl;

@@ -43,10 +43,21 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     instanceMethods: {
+      /**
+       * Compare plain password to user's hashed password
+       * @method
+       * @param {String} password
+       * @returns {Boolean} password match
+       */
       validPassword(password) {
         return bcrypt.compareSync(password, this.password);
       },
 
+      /**
+       * Hash user's password
+       * @method
+       * @returns {Void} no return
+       */
       hashPassword() {
         this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
       }

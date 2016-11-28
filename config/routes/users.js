@@ -11,4 +11,7 @@ router.route('/:id')
   .put(usersCtrl.edit)
   .delete(usersCtrl.destroy);
 
+router.post('/login', usersCtrl.login);
+router.post('/logout', usersCtrl.logout);
+
 module.exports = router;
