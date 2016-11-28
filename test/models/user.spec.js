@@ -14,8 +14,8 @@ describe('User model', () => {
   beforeEach(() =>
     db.Role.create(roleParams)
       .then((role) => {
+        params.RoleId = role.id;
         user = db.User.build(params);
-        user.RoleId = role.id;
       }));
 
   // clear DB after each test

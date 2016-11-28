@@ -13,12 +13,11 @@ let document;
 describe('Document model', () => {
   beforeEach(() =>
     db.Role.create(helper.role).then((role) => {
-      const user = db.User.build(userParams);
-      user.RoleId = role.id;
-      return user.save()
+      userParams.RoleId = role.id;
+      return db.User.create(userParams)
         .then((owner) => {
+          params.OwnerId = owner.id;
           document = db.Document.build(params);
-          document.OwnerId = owner.id;
         });
     })
   );
