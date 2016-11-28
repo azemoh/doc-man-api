@@ -13,12 +13,11 @@ let document;
 describe('Document model', () => {
   beforeEach(() =>
     db.Role.create(helper.role).then((role) => {
-      const user = db.User.build(userParams);
-      user.RoleId = role.id;
-      return user.save()
+      userParams.RoleId = role.id;
+      return db.User.create(userParams)
         .then((owner) => {
+          params.OwnerId = owner.id;
           document = db.Document.build(params);
-          document.OwnerId = owner.id;
         });
     })
   );
@@ -39,8 +38,12 @@ describe('Document model', () => {
       document.save().then((newDoc) => {
         expect(newDoc.title).to.equal(document.title);
         expect(newDoc.content).to.equal(document.content);
-      }).catch(err => expect(err).to.not.exist)
-    );
+      }).catch(err => expect(err).to.not.exist));
+
+    it('sets default access to public', () =>
+      document.save().then((newDoc) => {
+        expect(newDoc.access).to.equal('public');
+      }).catch(err => expect(err).to.not.exist));
   });
 
   describe('Validations', () => {
@@ -55,6 +58,14 @@ describe('Document model', () => {
               expect(/notNull/.test(err.message)).to.be.true);
         });
       });
+    });
+
+    it('fails for invalid access', () => {
+      document.access = 'invalid access';
+      return document.save()
+        .then(newDoc => expect(newDoc).to.not.exist)
+        .catch(err =>
+          expect(/isIn failed/.test(err.message)).to.be.true);
     });
   });
 });

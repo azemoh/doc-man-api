@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     OwnerId: DataTypes.INTEGER,
+    access: {
+      defaultValue: 'public',
+      type: DataTypes.STRING,
+      validate: {
+        isIn: [['private', 'public', 'role']]
+      }
+    }
   }, {
     classMethods: {
       associate(models) {

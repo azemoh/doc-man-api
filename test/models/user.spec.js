@@ -12,10 +12,10 @@ let user;
 
 describe('User model', () => {
   beforeEach(() =>
-    db.Role.build(roleParams).save()
+    db.Role.create(roleParams)
       .then((role) => {
+        params.RoleId = role.id;
         user = db.User.build(params);
-        user.RoleId = role.id;
       }));
 
   // clear DB after each test
@@ -40,6 +40,20 @@ describe('User model', () => {
           .then((foundUser) => {
             expect(foundUser.Role.title).to.equal(roleParams.title);
           })));
+
+    it('creates user and hashes password', () =>
+      user.save().then(newUser =>
+          expect(newUser.password).to.not.equal(params.password)));
+  });
+
+  describe('Update user', () => {
+    it('hashes update password', () =>
+      user.save().then(newUser =>
+        newUser.update({ password: 'newpassword' })
+          .then((updatedUser) => {
+            expect(updatedUser.password).to.not.equal('newpassword');
+          })
+    ));
   });
 
   describe('Validations', () => {
@@ -70,5 +84,23 @@ describe('User model', () => {
           }));
       });
     });
+
+    it('fails for invalid email', () => {
+      user.email = 'invalid email';
+      return user.save()
+        .then(newUser => expect(newUser).to.not.exist)
+        .catch(err =>
+          expect(/isEmail failed/.test(err.message)).to.be.true);
+    });
+  });
+
+  describe('user.validPassword', () => {
+    it('valid for correct password', () =>
+      user.save().then(newUser =>
+        expect(newUser.validPassword(params.password)).to.be.true));
+
+    it('invalid for incorrect password', () =>
+      user.save().then(newUser =>
+        expect(newUser.validPassword('invalid password')).to.be.false));
   });
 });
