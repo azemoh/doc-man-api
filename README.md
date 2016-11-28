@@ -6,6 +6,20 @@
 [![Issue Count][issues-image]][issues-url]
 
 
+## API Docs
+
+### Users
+
+Http verb | Endpoint | Description
+------------|----------|-------------
+POST | /users | Create a new user
+GET | /users | Get all users
+GET | /users/:id | Get a particular user
+PUT | /users/:id | Update user attribute
+DELETE | /users/:id | Delete a user
+POST | /users/login | Logs a user in
+POST | /users/logout | Logs a user out
+
 [travis-url]: https://travis-ci.org/azemoh/doc-man-api
 [travis-image]: https://travis-ci.org/azemoh/doc-man-api.svg
 

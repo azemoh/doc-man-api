@@ -12,7 +12,7 @@ let user;
 
 describe('User model', () => {
   beforeEach(() =>
-    db.Role.build(roleParams).save()
+    db.Role.create(roleParams)
       .then((role) => {
         user = db.User.build(params);
         user.RoleId = role.id;
@@ -44,6 +44,16 @@ describe('User model', () => {
     it('creates user and hashes password', () =>
       user.save().then(newUser =>
           expect(newUser.password).to.not.equal(params.password)));
+  });
+
+  describe('Update user', () => {
+    it('hashes update password', () =>
+      user.save().then(newUser =>
+        newUser.update({ password: 'newpassword' })
+          .then((updatedUser) => {
+            expect(updatedUser.password).to.not.equal('newpassword');
+          })
+    ));
   });
 
   describe('Validations', () => {

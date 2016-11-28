@@ -34,11 +34,6 @@ const usersCtrl = {
 
         db.User.create(req.body)
           .then((user) => {
-            if (!user) {
-              return res.status(400)
-                .send({ message: 'Failed to create user' });
-            }
-
             const token = jwt.sign({
               UserId: user.id,
               RoleId: user.RoleId
@@ -137,7 +132,9 @@ const usersCtrl = {
       });
   },
 
-  logout(req, res) {}
+  logout(req, res) {
+    res.send({ message: 'Logout successful.' });
+  }
 };
 
 module.exports = usersCtrl;
