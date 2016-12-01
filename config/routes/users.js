@@ -13,7 +13,7 @@ router.route('/:id')
   .put(Auth.verifyToken, usersCtrl.edit)
   .delete(Auth.verifyToken, usersCtrl.destroy);
 
-router.get('/:id/documents', documentsCtrl.userDocuments);
+router.get('/:id/documents', Auth.verifyToken, documentsCtrl.userDocuments);
 
 router.post('/login', usersCtrl.login);
 router.post('/logout', usersCtrl.logout);
