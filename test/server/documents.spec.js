@@ -7,7 +7,7 @@ const helper = require('../test.helper');
 const params = helper.document;
 const userParams = helper.user;
 
-let document;
+let document, token;
 
 describe('Document API', () => {
   describe('With existing document', () => {
@@ -21,16 +21,29 @@ describe('Document API', () => {
               return db.Document.create(params)
                 .then((newDocument) => {
                   document = newDocument;
+                  request.post('/users/login')
+                    .send(userParams)
+                    .end((err, res) => {
+                      token = res.body.token;
+                    });
                 });
             });
-        })
-    );
+        }));
 
     afterEach(() => db.Document.sequelize.sync({ force: true }));
 
     describe('Get all GET: /documents', () => {
+      it('should return unauthorised for no token', (done) => {
+        request.get('/documents')
+          .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done();
+          });
+      });
+
       it('should return all documents', (done) => {
         request.get('/documents')
+          .set({ Authorization: token })
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(Array.isArray(res.body)).to.be.true;
@@ -43,6 +56,7 @@ describe('Document API', () => {
     describe('Get Document GET: /document/:id', () => {
       it('should get correct document', (done) => {
         request.get(`/documents/${document.id}`)
+          .set({ Authorization: token })
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(res.body.title).to.equal(document.title);
@@ -52,6 +66,7 @@ describe('Document API', () => {
 
       it('should return NOT FOUND for invalid id', (done) => {
         request.get('/documents/100')
+          .set({ Authorization: token })
           .expect(404, done);
       });
     });
@@ -61,6 +76,7 @@ describe('Document API', () => {
         const newAttributes = { title: 'New title', content: 'new content' };
 
         request.put(`/documents/${document.id}`)
+          .set({ Authorization: token })
           .send(newAttributes)
           .end((err, res) => {
             expect(res.status).to.equal(200);
@@ -72,6 +88,7 @@ describe('Document API', () => {
 
       it('should return NOT FOUND for invalid id', (done) => {
         request.put('/documents/100')
+          .set({ Authorization: token })
           .expect(404, done);
       });
     });
@@ -79,6 +96,7 @@ describe('Document API', () => {
     describe('Delete document DELETE: /documents/:id', () => {
       it('deletes the document', (done) => {
         request.delete(`/documents/${document.id}`)
+          .set({ Authorization: token })
           .end((err, res) => {
             expect(res.status).to.equal(200);
             db.Document.count().then((count) => {
@@ -90,6 +108,7 @@ describe('Document API', () => {
 
       it('should return NOT FOUND for invalid id', (done) => {
         request.delete('/documents/100')
+          .set({ Authorization: token })
           .expect(404, done);
       });
     });
@@ -97,6 +116,7 @@ describe('Document API', () => {
     describe('Get all GET: /users/:id/documents', () => {
       it('should return all user documents', (done) => {
         request.get(`/users/${document.OwnerId}/documents`)
+          .set({ Authorization: token })
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(Array.isArray(res.body)).to.be.true;
@@ -124,6 +144,7 @@ describe('Document API', () => {
     describe('Create document POST: /document', () => {
       it('creates a new user and returns a token', (done) => {
         request.post('/documents')
+          .set({ Authorization: token })
           .send(params)
           .end((err, res) => {
             expect(res.status).to.equal(200);
@@ -134,6 +155,7 @@ describe('Document API', () => {
 
       it('fails for invalid document attributes', (done) => {
         request.post('/documents')
+          .set({ Authorization: token })
           .send({})
           .expect(400, done);
       });
