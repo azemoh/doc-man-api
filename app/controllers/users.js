@@ -39,7 +39,7 @@ const usersCtrl = {
               RoleId: user.RoleId
             }, secret, { expiresIn: 86400 });
 
-            res.send({ token, expiresIn: 86400 });
+            res.send({ token, expiresIn: 86400, user });
           })
           .catch((err) => {
             res.status(400).send(err.errors);
@@ -124,7 +124,7 @@ const usersCtrl = {
             RoleId: user.RoleId
           }, secret, { expiresIn: 86400 });
 
-          res.send({ token, expiresIn: 86400 });
+          res.send({ token, expiresIn: 86400, user });
         } else {
           res.status(401)
             .send({ message: 'Failed to authenticate.' });
