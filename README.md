@@ -30,6 +30,13 @@ GET | /documents/:id | Get a particular document
 PUT | /documents/:id | Update document attribute
 DELETE | /documents/:id | Delete a document
 
+### Roles
+
+Http verb | Endpoint | Description
+------------|----------|-------------
+POST | /roles | Create a new role
+GET | /roles | Get all roles
+
 [travis-url]: https://travis-ci.org/azemoh/doc-man-api
 [travis-image]: https://travis-ci.org/azemoh/doc-man-api.svg
 
