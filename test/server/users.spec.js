@@ -38,6 +38,23 @@ describe('User API', () => {
           });
       });
 
+      it('should return unauthorised if user is not an admin', (done) => {
+        db.Role.create({ title: 'regular' })
+          .then((role) => {
+            helper.user2.RoleId = role.id;
+            db.User.create(helper.user2)
+              .then(() => {
+                request.post('/users/login')
+                  .send(helper.user2)
+                  .end((err, res) => {
+                    request.get('/users')
+                      .set({ Authorization: res.body.token })
+                      .expect(403, done);
+                  });
+              });
+          });
+      });
+
       it('should return all users', (done) => {
         request.get('/users')
           .set({ Authorization: token })

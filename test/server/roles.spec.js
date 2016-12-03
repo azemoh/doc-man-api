@@ -46,7 +46,7 @@ describe('Roles API', () => {
     });
   });
 
-  describe('Create document POST: /roles', () => {
+  describe('Create roles POST: /roles', () => {
     it('creates a new user and returns a token', (done) => {
       request.post('/roles')
         .set({ Authorization: token })
@@ -58,11 +58,29 @@ describe('Roles API', () => {
         });
     });
 
-    it('fails for invalid document attributes', (done) => {
+    it('fails for invalid role attributes', (done) => {
       request.post('/roles')
         .set({ Authorization: token })
         .send({})
         .expect(400, done);
+    });
+
+    it('fails if user is not an admin', (done) => {
+      db.Role.create({ title: 'regular' })
+        .then((role) => {
+          helper.user2.RoleId = role.id;
+          db.User.create(helper.user2)
+            .then(() => {
+              request.post('/users/login')
+                .send(helper.user2)
+                .end((err, res) => {
+                  request.post('/roles')
+                    .set({ Authorization: res.body.token })
+                    .send({ title: 'other' })
+                    .expect(403, done);
+                });
+            });
+        });
     });
   });
 });

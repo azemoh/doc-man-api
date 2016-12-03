@@ -5,7 +5,7 @@ const documentsCtrl = require('../../app/controllers/documents');
 const Auth = require('../../app/middlewares/auth');
 
 router.route('/')
-  .get(Auth.verifyToken, usersCtrl.index)
+  .get(Auth.verifyToken, Auth.permitAdmin, usersCtrl.index)
   .post(usersCtrl.create);
 
 router.route('/:id')

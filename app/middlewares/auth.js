@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const db = require('../models');
 
 const secret = process.env.SECRET_TOKEN || 'super duper secret';
 
@@ -16,6 +17,17 @@ const Auth = {
       req.decoded = decoded;
       next();
     });
+  },
+
+  permitAdmin(req, res, next) {
+    db.Role.findById(req.decoded.RoleId)
+      .then((role) => {
+        if (role.title === 'admin') {
+          next();
+        } else {
+          return res.status(403).send({ message: 'You are not an admin' });
+        }
+      });
   }
 };
 
