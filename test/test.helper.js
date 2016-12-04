@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== 'test') {
   process.exit(1);
 }
+const faker = require('faker');
 
 module.exports = {
   role: {
@@ -8,23 +9,23 @@ module.exports = {
   },
 
   user: {
-    username: 'johndoe',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john@mail.com',
-    password: 'passjejkke'
+    username: faker.internet.userName(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
   },
 
   user2: {
-    username: 'janedoe',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    email: 'jane@mail.com',
-    password: 'password'
+    username: faker.internet.userName(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
   },
 
   document: {
-    title: 'document 1',
-    content: 'document 1 content'
+    title: faker.company.catchPhrase(),
+    content: faker.lorem.paragraph()
   }
 };
