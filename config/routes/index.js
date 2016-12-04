@@ -1,6 +1,7 @@
 const users = require('./users');
 const documents = require('./documents');
 const roles = require('./roles');
+const types = require('./types');
 
 module.exports = (app) => {
   // Index route
@@ -10,5 +11,6 @@ module.exports = (app) => {
 
   app.use('/roles', roles);
   app.use('/users', users);
+  app.use('/types', types);
   app.use('/documents', documents);
 };

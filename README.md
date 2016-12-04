@@ -38,9 +38,16 @@ GET `/documents/:id` | Get a particular document
 PUT `/documents/:id` | Update document attribute
 DELETE `/documents/:id` | Delete a document
 
+### Types
+
+Endpoint | Type
+---------|-------------
+POST `/types` | Create a new type
+GET `/types` | Get all types
+
 #### Pagination / Limiting
 
-Add `limit` and `offset` query parameters to the `/documents` Endpoint URL to limit the number of ducuments retured.
+Add `limit` and `offset` query parameters to the `/documents` Endpoint URL to limit the number of documents returned.
 
 GET: `/documents?limit=5&offset=5`
 
