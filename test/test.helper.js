@@ -7,7 +7,9 @@ module.exports = {
   role: {
     title: 'admin'
   },
-
+  type: {
+    title: 'legal'
+  },
   user: {
     username: faker.internet.userName(),
     firstName: faker.name.firstName(),
