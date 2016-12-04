@@ -9,7 +9,12 @@ const documentsCtrl = {
    * @returns {Void} no returns
    */
   index(req, res) {
-    db.Document.findAll().then((documents) => {
+    const query = {
+      limit: req.query.limit || null,
+      offset: req.query.offset || null
+    };
+
+    db.Document.findAll(query).then((documents) => {
       res.send(documents);
     });
   },
