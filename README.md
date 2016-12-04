@@ -40,10 +40,13 @@ DELETE `/documents/:id` | Delete a document
 
 ### Types
 
-Endpoint | Type
+Endpoint | Description
 ---------|-------------
 POST `/types` | Create a new type
 GET `/types` | Get all types
+GET `/types/:id` | Get a particular type
+PUT `/types/:id` | Update type attribute
+DELETE `/types/:id` | Delete a type
 
 #### Pagination / Limiting
 
