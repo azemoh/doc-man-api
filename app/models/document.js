@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isIn: [['private', 'public', 'role']]
       }
-    }
+    },
+    TypeId: DataTypes.INTEGER
   }, {
     classMethods: {
       associate(models) {
@@ -23,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
           as: 'Owner',
           onDelete: 'CASCADE',
           foreignKey: { allowNull: false }
+        });
+
+        Document.belongsTo(models.Type, {
+          onDelete: 'CASCADE',
+          foreignKey: { allowNull: true }
         });
       }
     }
