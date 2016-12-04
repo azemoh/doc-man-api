@@ -8,6 +8,13 @@
 
 ## API Docs
 
+### Roles
+
+Endpoint | Description
+----------|-------------
+POST `/roles` | Create a new role
+GET `/roles` | Get all roles
+
 ### Users
 
 Endpoint | Description
@@ -31,12 +38,12 @@ GET `/documents/:id` | Get a particular document
 PUT `/documents/:id` | Update document attribute
 DELETE `/documents/:id` | Delete a document
 
-### Roles
+#### Pagination / Limiting
 
-Endpoint | Description
-----------|-------------
-POST `/roles` | Create a new role
-GET `/roles` | Get all roles
+Add `limit` and `offset` query parameters to the `/documents` Endpoint URL to limit the number of ducuments retured.
+
+GET: `/documents?limit=5&offset=5`
+
 
 [travis-url]: https://travis-ci.org/azemoh/doc-man-api
 [travis-image]: https://travis-ci.org/azemoh/doc-man-api.svg
