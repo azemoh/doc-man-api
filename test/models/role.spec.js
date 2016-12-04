@@ -33,13 +33,11 @@ describe('Role model', () => {
           expect(/notNull/.test(err.message)).to.be.true)
     );
 
-    it('fails for non unique title', () => {
-      role.save();
-
-      return Role.create(params)
-        .then(newRole => expect(newRole).to.not.exist)
-        .catch(err =>
-          expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true);
-    });
+    it('fails for non unique title', () =>
+      role.save().then(() =>
+        Role.create(params)
+          .then(newRole => expect(newRole).to.not.exist)
+          .catch(err =>
+            expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true)));
   });
 });

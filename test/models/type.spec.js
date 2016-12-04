@@ -33,13 +33,11 @@ describe('Type model', () => {
           expect(/notNull/.test(err.message)).to.be.true)
     );
 
-    it('fails for non unique title', () => {
-      type.save();
-
-      return Type.create(params)
-        .then(newType => expect(newType).to.not.exist)
-        .catch(err =>
-          expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true);
-    });
+    it('fails for non unique title', () =>
+      type.save().then(() =>
+        Type.create(params)
+          .then(newType => expect(newType).to.not.exist)
+          .catch(err =>
+            expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true)));
   });
 });
