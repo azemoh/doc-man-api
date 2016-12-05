@@ -24,7 +24,7 @@ const typesCtrl = {
   create(req, res) {
     db.Type.create(req.body)
       .then((type) => {
-        res.send(type);
+        res.status(201).send(type);
       })
       .catch((err) => {
         res.status(400).send(err.errors);

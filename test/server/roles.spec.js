@@ -112,7 +112,7 @@ describe('Roles API', () => {
         .set({ Authorization: token })
         .send({ title: 'regular' })
         .end((err, res) => {
-          expect(res.status).to.equal(200);
+          expect(res.status).to.equal(201);
           expect(res.body.title).to.equal('regular');
           done();
         });

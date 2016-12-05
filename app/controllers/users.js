@@ -39,7 +39,7 @@ const usersCtrl = {
               RoleId: user.RoleId
             }, secret, { expiresIn: 86400 });
 
-            res.send({ token, expiresIn: 86400, user });
+            res.status(201).send({ token, expiresIn: 86400, user });
           })
           .catch((err) => {
             res.status(400).send(err.errors);

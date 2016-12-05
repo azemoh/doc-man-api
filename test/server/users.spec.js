@@ -172,7 +172,7 @@ describe('User API', () => {
         request.post('/users')
           .send(usersParams)
           .end((err, res) => {
-            expect(res.status).to.equal(200);
+            expect(res.status).to.equal(201);
             expect(res.body.token).to.exist;
             done();
           });

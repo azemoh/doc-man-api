@@ -127,7 +127,7 @@ describe('Types API Endpoint', () => {
           .set({ Authorization: token })
           .send(helper.type)
           .end((err, res) => {
-            expect(res.status).to.equal(200);
+            expect(res.status).to.equal(201);
             expect(res.body.title).to.equal(helper.type.title);
             done();
           });

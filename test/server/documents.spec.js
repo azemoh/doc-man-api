@@ -147,7 +147,7 @@ describe('Document API', () => {
           .set({ Authorization: token })
           .send(documentParams)
           .end((err, res) => {
-            expect(res.status).to.equal(200);
+            expect(res.status).to.equal(201);
             expect(res.body.title).to.equal(documentParams.title);
             done();
           });

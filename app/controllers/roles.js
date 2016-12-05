@@ -24,7 +24,7 @@ const rolesCtrl = {
   create(req, res) {
     db.Role.create(req.body)
       .then((role) => {
-        res.send(role);
+        res.status(201).send(role);
       })
       .catch((err) => {
         res.status(400).send(err.errors);

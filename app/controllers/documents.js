@@ -29,7 +29,7 @@ const documentsCtrl = {
   create(req, res) {
     db.Document.create(req.body)
       .then((document) => {
-        res.send(document);
+        res.status(201).send(document);
       })
       .catch((err) => {
         res.status(400).send(err.errors);
