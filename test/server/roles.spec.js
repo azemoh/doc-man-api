@@ -6,13 +6,14 @@ const helper = require('../test.helper');
 
 const userParams = helper.user;
 
-let token;
+let role, token;
 
 describe('Roles API', () => {
   beforeEach(() =>
     db.Role.create(helper.role)
-      .then((role) => {
-        userParams.RoleId = role.id;
+      .then((newRole) => {
+        userParams.RoleId = newRole.id;
+        role = newRole;
         return db.User.create(userParams)
           .then(() => {
             request.post('/users/login')
@@ -46,6 +47,65 @@ describe('Roles API', () => {
     });
   });
 
+  describe('Get role GET: /roles/:id', () => {
+    it('should get correct role', (done) => {
+      request.get(`/roles/${role.id}`)
+        .set({ Authorization: token })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.title).to.equal(role.title);
+          done();
+        });
+    });
+
+    it('should return NOT FOUND for invalid id', (done) => {
+      request.get('/roles/100')
+        .set({ Authorization: token })
+        .expect(404, done);
+    });
+  });
+
+  describe('Edit role PUT: /roles/:id', () => {
+    it('updates the role attributes', (done) => {
+      const newAttributes = { title: 'role' };
+
+      request.put(`/roles/${role.id}`)
+        .set({ Authorization: token })
+        .send(newAttributes)
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.title).to.equal(newAttributes.title);
+          done();
+        });
+    });
+
+    it('should return NOT FOUND for invalid id', (done) => {
+      request.put('/roles/100')
+        .set({ Authorization: token })
+        .expect(404, done);
+    });
+  });
+
+  describe('Delete role DELETE: /roles/:id', () => {
+    it('deletes the role', (done) => {
+      request.delete(`/roles/${role.id}`)
+        .set({ Authorization: token })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          db.Role.count().then((count) => {
+            expect(count).to.equal(0);
+            done();
+          });
+        });
+    });
+
+    it('should return NOT FOUND for invalid id', (done) => {
+      request.delete('/roles/100')
+        .set({ Authorization: token })
+        .expect(404, done);
+    });
+  });
+
   describe('Create roles POST: /roles', () => {
     it('creates a new role', (done) => {
       request.post('/roles')
@@ -67,8 +127,8 @@ describe('Roles API', () => {
 
     it('fails if user is not an admin', (done) => {
       db.Role.create({ title: 'regular' })
-        .then((role) => {
-          helper.user2.RoleId = role.id;
+        .then((newRole) => {
+          helper.user2.RoleId = newRole.id;
           db.User.create(helper.user2)
             .then(() => {
               request.post('/users/login')

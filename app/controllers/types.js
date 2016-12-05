@@ -90,8 +90,7 @@ const typesCtrl = {
         type.destroy();
         res.send({ message: 'Type deleted succeffully.' });
       });
-  },
-
+  }
 };
 
 module.exports = typesCtrl;

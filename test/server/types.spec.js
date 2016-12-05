@@ -49,7 +49,7 @@ describe('Types API Endpoint', () => {
       });
     });
 
-    describe('Get type GET: /type/:id', () => {
+    describe('Get type GET: /types/:id', () => {
       it('should get correct type', (done) => {
         request.get(`/types/${type.id}`)
           .set({ Authorization: token })

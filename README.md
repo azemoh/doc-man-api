@@ -11,14 +11,17 @@
 ### Roles
 
 Endpoint | Description
-----------|-------------
+---------|-------------
 POST `/roles` | Create a new role
 GET `/roles` | Get all roles
+GET `/roles/:id` | Get a particular role
+PUT `/roles/:id` | Update role attribute
+DELETE `/roles/:id` | Delete a role
 
 ### Users
 
 Endpoint | Description
-----------|-------------
+---------|-------------
 POST `/users` | Create a new user
 GET `/users` | Get all users
 GET `/users/:id` | Get a particular user
@@ -30,7 +33,7 @@ POST `/users/logout` | Logs a user out
 ### Documents
 
 Endpoint | Description
-----------|-------------
+---------|-------------
 POST `/documents` | Create a new document
 GET `/documents` | Get all documents
 GET `/users/:id/documents` | Get documents for a user

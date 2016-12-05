@@ -30,6 +30,67 @@ const rolesCtrl = {
         res.status(400).send(err.errors);
       });
   },
+
+  /**
+   * Get a particular role
+   * Route: GET: /roles/:id
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {Void|Response} response object or void
+   */
+  show(req, res) {
+    db.Role.findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(404)
+            .send({ message: `Role with id: ${req.params.id} not found` });
+        }
+
+        res.send(role);
+      });
+  },
+
+  /**
+   * Update a particular role
+   * Route: PUT: /roles/:id
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {Response|Void} response object or void
+   */
+  edit(req, res) {
+    db.Role.findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(404)
+            .send({ message: `Role with id: ${req.params.id} not found` });
+        }
+
+        role.update(req.body)
+          .then((updatedRole) => {
+            res.send(updatedRole);
+          });
+      });
+  },
+
+  /**
+   * Delete a particular role
+   * Route: DELETE: /roles/:id
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {Response|Void} response object or void
+   */
+  destroy(req, res) {
+    db.Role.findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(404)
+            .send({ message: `Role with id: ${req.params.id} not found` });
+        }
+
+        role.destroy();
+        res.send({ message: 'Role deleted succeffully.' });
+      });
+  }
 };
 
 module.exports = rolesCtrl;
