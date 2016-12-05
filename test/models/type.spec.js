@@ -1,12 +1,12 @@
 const expect = require('chai').expect;
 const Type = require('../../app/models').Type;
-const params = require('../test.helper').type;
+const typeParams = require('../test.helper').type;
 
 let type;
 
 describe('Type model', () => {
   beforeEach(() => {
-    type = Type.build(params);
+    type = Type.build(typeParams);
   });
 
   // clear DB after each test
@@ -17,7 +17,7 @@ describe('Type model', () => {
       expect(type).to.exist);
 
     it('has a title', () => {
-      expect(type.title).to.equal(params.title);
+      expect(type.title).to.equal(typeParams.title);
     });
 
     it('saves type with valid attributes', () =>
@@ -35,7 +35,7 @@ describe('Type model', () => {
 
     it('fails for non unique title', () =>
       type.save().then(() =>
-        Type.create(params)
+        Type.create(typeParams)
           .then(newType => expect(newType).to.not.exist)
           .catch(err =>
             expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true)));

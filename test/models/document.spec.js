@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const params = helper.document;
+const documnetParams = helper.document;
 const userParams = helper.user;
 
 
@@ -16,8 +16,8 @@ describe('Document model', () => {
       userParams.RoleId = role.id;
       return db.User.create(userParams)
         .then((owner) => {
-          params.OwnerId = owner.id;
-          document = db.Document.build(params);
+          documnetParams.OwnerId = owner.id;
+          document = db.Document.build(documnetParams);
         });
     })
   );
@@ -30,19 +30,19 @@ describe('Document model', () => {
       expect(document).to.exist);
 
     it('has both title and content', () => {
-      expect(document.title).to.equal(params.title);
-      expect(document.content).to.equal(params.content);
+      expect(document.title).to.equal(documnetParams.title);
+      expect(document.content).to.equal(documnetParams.content);
     });
 
     it('saves document with valid attributes', () =>
-      document.save().then((newDoc) => {
-        expect(newDoc.title).to.equal(document.title);
-        expect(newDoc.content).to.equal(document.content);
+      document.save().then((newDocument) => {
+        expect(newDocument.title).to.equal(document.title);
+        expect(newDocument.content).to.equal(document.content);
       }).catch(err => expect(err).to.not.exist));
 
     it('sets default access to public', () =>
-      document.save().then((newDoc) => {
-        expect(newDoc.access).to.equal('public');
+      document.save().then((newDocument) => {
+        expect(newDocument.access).to.equal('public');
       }).catch(err => expect(err).to.not.exist));
   });
 
@@ -53,7 +53,7 @@ describe('Document model', () => {
           document[attr] = null;
 
           return document.save()
-            .then(newDoc => expect(newDoc).to.not.exist)
+            .then(newDocument => expect(newDocument).to.not.exist)
             .catch(err =>
               expect(/notNull/.test(err.message)).to.be.true);
         });
@@ -63,7 +63,7 @@ describe('Document model', () => {
     it('fails for invalid access', () => {
       document.access = 'invalid access';
       return document.save()
-        .then(newDoc => expect(newDoc).to.not.exist)
+        .then(newDocument => expect(newDocument).to.not.exist)
         .catch(err =>
           expect(/isIn failed/.test(err.message)).to.be.true);
     });

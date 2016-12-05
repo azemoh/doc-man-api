@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const params = helper.user;
+const userParams = helper.user;
 const roleParams = helper.role;
 
 const notNullAttrs = ['firstName', 'lastName', 'email', 'password', 'RoleId'];
@@ -14,8 +14,8 @@ describe('User model', () => {
   beforeEach(() =>
     db.Role.create(roleParams)
       .then((role) => {
-        params.RoleId = role.id;
-        user = db.User.build(params);
+        userParams.RoleId = role.id;
+        user = db.User.build(userParams);
       }));
 
   // clear DB after each test
@@ -26,8 +26,8 @@ describe('User model', () => {
       expect(user).to.exist);
 
     it('has both first and last name', () => {
-      expect(user.firstName).to.equal(params.firstName);
-      expect(user.lastName).to.equal(params.lastName);
+      expect(user.firstName).to.equal(userParams.firstName);
+      expect(user.lastName).to.equal(userParams.lastName);
     });
 
     it('saves user with valid attributes', () =>
@@ -43,7 +43,7 @@ describe('User model', () => {
 
     it('creates user and hashes password', () =>
       user.save().then(newUser =>
-          expect(newUser.password).to.not.equal(params.password)));
+          expect(newUser.password).to.not.equal(userParams.password)));
   });
 
   describe('Update user', () => {
@@ -74,7 +74,7 @@ describe('User model', () => {
       uniqueAttrs.forEach((attr) => {
         it(`fails for non unique ${attr}`, () =>
           user.save().then((newUser) => {
-            const user2 = db.User.build(params);
+            const user2 = db.User.build(userParams);
             user2.RoleId = newUser.RoleId;
 
             return user2.save()
@@ -97,7 +97,7 @@ describe('User model', () => {
   describe('user.validPassword', () => {
     it('valid for correct password', () =>
       user.save().then(newUser =>
-        expect(newUser.validPassword(params.password)).to.be.true));
+        expect(newUser.validPassword(userParams.password)).to.be.true));
 
     it('invalid for incorrect password', () =>
       user.save().then(newUser =>

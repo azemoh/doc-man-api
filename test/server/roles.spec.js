@@ -119,9 +119,10 @@ describe('Roles API', () => {
     });
 
     it('fails for invalid role attributes', (done) => {
+      const invalidParams = { name: 'role' };
       request.post('/roles')
         .set({ Authorization: token })
-        .send({})
+        .send(invalidParams)
         .expect(400, done);
     });
 

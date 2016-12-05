@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const params = helper.document;
+const documentParams = helper.document;
 const userParams = helper.user;
 
 let document, token;
@@ -17,8 +17,8 @@ describe('Document API', () => {
           userParams.RoleId = role.id;
           return db.User.create(userParams)
             .then((user) => {
-              params.OwnerId = user.id;
-              return db.Document.create(params)
+              documentParams.OwnerId = user.id;
+              return db.Document.create(documentParams)
                 .then((newDocument) => {
                   document = newDocument;
                   request.post('/users/login')
@@ -134,7 +134,7 @@ describe('Document API', () => {
           userParams.RoleId = role.id;
           return db.User.create(userParams)
             .then((user) => {
-              params.OwnerId = user.id;
+              documentParams.OwnerId = user.id;
             });
         })
     );
@@ -145,18 +145,19 @@ describe('Document API', () => {
       it('creates a new user and returns a token', (done) => {
         request.post('/documents')
           .set({ Authorization: token })
-          .send(params)
+          .send(documentParams)
           .end((err, res) => {
             expect(res.status).to.equal(200);
-            expect(res.body.title).to.equal(params.title);
+            expect(res.body.title).to.equal(documentParams.title);
             done();
           });
       });
 
       it('fails for invalid document attributes', (done) => {
+        const invalidParams = {};
         request.post('/documents')
           .set({ Authorization: token })
-          .send({})
+          .send(invalidParams)
           .expect(400, done);
       });
     });

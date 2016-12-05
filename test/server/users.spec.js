@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const params = helper.user;
+const usersParams = helper.user;
 const roleParams = helper.role;
 
 let user, token;
@@ -14,12 +14,12 @@ describe('User API', () => {
     beforeEach(() =>
       db.Role.create(roleParams)
         .then((role) => {
-          params.RoleId = role.id;
-          return db.User.create(params)
+          usersParams.RoleId = role.id;
+          return db.User.create(usersParams)
             .then((newUser) => {
               user = newUser;
               request.post('/users/login')
-                .send(params)
+                .send(usersParams)
                 .end((err, res) => {
                   token = res.body.token;
                 });
@@ -130,7 +130,7 @@ describe('User API', () => {
     describe('Login POST: /users/login', () => {
       it('should return a token on sucessfull login', (done) => {
         request.post('/users/login')
-          .send(params)
+          .send(usersParams)
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(res.body.token).to.exist;
@@ -161,7 +161,7 @@ describe('User API', () => {
     beforeEach(() =>
       db.Role.create(roleParams)
         .then((role) => {
-          params.RoleId = role.id;
+          usersParams.RoleId = role.id;
         }));
 
     // clear DB after each test
@@ -170,7 +170,7 @@ describe('User API', () => {
     describe('Create user POST: /users', () => {
       it('creates a new user and returns a token', (done) => {
         request.post('/users')
-          .send(params)
+          .send(usersParams)
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(res.body.token).to.exist;
@@ -179,9 +179,9 @@ describe('User API', () => {
       });
 
       it('fails if user already exist', () =>
-        db.User.create(params).then(() => {
+        db.User.create(usersParams).then(() => {
           request.post('/users')
-            .send(params)
+            .send(usersParams)
             .end((err, res) => {
               expect(res.status).to.equal(409);
               expect(res.body.token).to.not.exist;
@@ -190,8 +190,9 @@ describe('User API', () => {
       );
 
       it('fails for invalid user attributes', (done) => {
+        const invalidParams = { firstName: 'Adam', name: 'King' };
         request.post('/users')
-          .send({})
+          .send(invalidParams)
           .end((err, res) => {
             expect(res.status).to.equal(400);
             expect(res.body.token).to.not.exist;

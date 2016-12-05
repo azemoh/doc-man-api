@@ -134,9 +134,10 @@ describe('Types API Endpoint', () => {
       });
 
       it('fails for invalid type attributes', (done) => {
+        const invalidParams = { name: 'type' };
         request.post('/types')
           .set({ Authorization: token })
-          .send({})
+          .send(invalidParams)
           .expect(400, done);
       });
     });

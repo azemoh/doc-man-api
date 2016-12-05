@@ -1,12 +1,12 @@
 const expect = require('chai').expect;
 const Role = require('../../app/models').Role;
-const params = require('../test.helper').role;
+const roleParams = require('../test.helper').role;
 
 let role;
 
 describe('Role model', () => {
   beforeEach(() => {
-    role = Role.build(params);
+    role = Role.build(roleParams);
   });
 
   // clear DB after each test
@@ -17,7 +17,7 @@ describe('Role model', () => {
       expect(role).to.exist);
 
     it('has a title', () => {
-      expect(role.title).to.equal(params.title);
+      expect(role.title).to.equal(roleParams.title);
     });
 
     it('saves role with valid attributes', () =>
@@ -35,7 +35,7 @@ describe('Role model', () => {
 
     it('fails for non unique title', () =>
       role.save().then(() =>
-        Role.create(params)
+        Role.create(roleParams)
           .then(newRole => expect(newRole).to.not.exist)
           .catch(err =>
             expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true)));
