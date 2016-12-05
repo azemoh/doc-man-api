@@ -4,6 +4,6 @@ module.exports = {
   },
 
   down(queryInterface) {
-    return queryInterface.removeColumn('Documents', 'RoleId');
+    return queryInterface.removeColumn('Documents', 'TypeId');
   }
 };

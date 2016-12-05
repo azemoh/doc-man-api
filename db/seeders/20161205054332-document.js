@@ -9,6 +9,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'private',
         OwnerId: 1,
+        TypeId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -17,6 +18,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'public',
         OwnerId: 1,
+        TypeId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -25,6 +27,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'public',
         OwnerId: 2,
+        TypeId: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -33,6 +36,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'private',
         OwnerId: 2,
+        TypeId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -41,6 +45,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'public',
         OwnerId: 1,
+        TypeId: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -49,6 +54,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'role',
         OwnerId: 2,
+        TypeId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -57,6 +63,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'private',
         OwnerId: 1,
+        TypeId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -65,6 +72,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'public',
         OwnerId: 1,
+        TypeId: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -73,6 +81,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'private',
         OwnerId: 2,
+        TypeId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -81,6 +90,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'role',
         OwnerId: 2,
+        TypeId: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -89,6 +99,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'private',
         OwnerId: 1,
+        TypeId: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
@@ -97,6 +108,7 @@ module.exports = {
         content: faker.lorem.paragraph(),
         access: 'role',
         OwnerId: 2,
+        TypeId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }
