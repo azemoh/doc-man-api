@@ -6,14 +6,62 @@
 [![Issue Count][issues-image]][issues-url]
 
 
-## API Docs
+# API Documentation
 
-### Roles
+## Roles
 
 Endpoint | Description
 ----------|-------------
 POST `/roles` | Create a new role
 GET `/roles` | Get all roles
+
+### Create roles
+
+**Request**
+- Endpoint: POST: `/roles`
+- Requires: Authentication and Admin role.
+- Body
+```json
+{
+  "title": "admin"
+}
+```
+**Response**
+- Status: 201 Created
+- Body
+```json
+{
+  "id": 1,
+  "title": "admin",
+  "createdAt": "2016-12-06T06:44:54.792Z",
+  "updatedAt": "2016-12-06T06:44:54.792Z"
+}
+```
+
+### Get all roles
+
+**Request**
+- Endpoint: GET: `/roles`
+- Requires: Authentication
+
+**Response**
+- Status: 200 OK
+- Body
+```json
+[
+  {
+    "id": 1,
+    "title": "admin",
+    "createdAt": "2016-12-06T06:44:54.792Z",
+    "updatedAt": "2016-12-06T06:44:54.792Z"
+  }, {
+    "id": 2,
+    "title": "regular",
+    "createdAt": "2016-12-06T06:44:54.792Z",
+    "updatedAt": "2016-12-06T06:44:54.792Z"
+  }
+]
+```
 
 ### Users
 
