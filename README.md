@@ -7,15 +7,22 @@
 
 
 # API Documentation
+- [Roles](#roles)
+  - [Create role](#create-role)
+  - [List roles](#list-roles)
+
+- [Users](#users)
+  - [Create user](#create-user)
+  - [List users](#list-users)
 
 ## Roles
 
 Endpoint | Description
-----------|-------------
+---------|-------------
 POST `/roles` | Create a new role
 GET `/roles` | Get all roles
 
-### Create roles
+### Create role
 
 **Request**
 - Endpoint: POST: `/roles`
@@ -38,7 +45,7 @@ GET `/roles` | Get all roles
 }
 ```
 
-### Get all roles
+### List Roles
 
 **Request**
 - Endpoint: GET: `/roles`
