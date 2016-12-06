@@ -38,7 +38,7 @@ Endpoint for Roles resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 [
   {
@@ -60,7 +60,7 @@ Endpoint for Roles resource.
 #### Request
 - Endpoint: POST: `/roles`
 - Requires: Authentication and Admin role.
-- Body
+- Body `(application/json)`
 ```json
 {
   "title": "admin"
@@ -69,7 +69,7 @@ Endpoint for Roles resource.
 
 #### Response
 - Status: 201 Created
-- Body
+- Body `(application/json)`
 ```json
 {
   "id": 1,
@@ -90,7 +90,7 @@ Endpoint for Users resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 [
   {
@@ -119,7 +119,7 @@ Endpoint for Users resource.
 
 #### Request
 - Endpoint: POST: `/users`
-- Body
+- Body `(application/json)`
 ```json
 {
   "username": "johndoe",
@@ -133,7 +133,7 @@ Endpoint for Users resource.
 
 #### Response
 - Status: 201 Created
-- Body
+- Body `(application/json)`
 ```json
 {
   "user": {
@@ -159,7 +159,7 @@ Endpoint for Users resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 {
   "id": 1,
@@ -178,7 +178,7 @@ Endpoint for Users resource.
 #### Request
 - Endpoint: PUT: `/users/:id`
 - Requires: Authentication
-- Body:
+- Body `(application/json)`:
 ```json
 {
   "firstName": "Elon",
@@ -189,7 +189,7 @@ Endpoint for Users resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 {
   "id": 1,
@@ -211,7 +211,7 @@ Endpoint for Users resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 {
   "message": "User deleted successfully."
@@ -232,7 +232,7 @@ Endpoint for document resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 [
   {
@@ -263,7 +263,7 @@ Endpoint for document resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 [
   {
@@ -291,7 +291,7 @@ Endpoint for document resource.
 #### Request
 - Endpoint: POST: `/documents`
 - Requires: Authentication
-- Body
+- Body `(application/json)`
 ```json
 {
   "title": "De-engineered explicit attitude",
@@ -303,7 +303,7 @@ Endpoint for document resource.
 
 #### Response
 - Status: 201 Created
-- Body
+- Body `(application/json)`
 ```json
 {
   "id": 1,
@@ -325,7 +325,7 @@ Endpoint for document resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 {
   "id": 1,
@@ -343,7 +343,7 @@ Endpoint for document resource.
 #### Request
 - Endpoint: PUT: `/documents/:id`
 - Requires: Authentication
-- Body:
+- Body `(application/json)`:
 ```json
 {
   "title": "Self-enabling scalable neural-net",
@@ -353,7 +353,7 @@ Endpoint for document resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 {
   "id": 1,
@@ -374,7 +374,7 @@ Endpoint for document resource.
 
 #### Response
 - Status: 200 OK
-- Body
+- Body `(application/json)`
 ```json
 {
   "message": "Document deleted successfully."
