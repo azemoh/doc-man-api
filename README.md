@@ -16,7 +16,11 @@
   - [Create user](#create-user)
   - [Get user](#get-user)
   - [Edit user](#edit-user)
+  - [Delete user](#delete-user)
 
+- [Documents](#documents)
+  - [List documents](#list-documents)
+  - [Create document](#create-document)
 
 ## Roles
 
@@ -74,7 +78,7 @@ GET `/roles` | Get all roles
 }
 ```
 
-### Users
+## Users
 
 Endpoint | Description
 ----------|-------------
@@ -176,6 +180,7 @@ POST `/users/logout` | Logs a user out
   "createdAt": "2016-12-06T09:25:29.316Z",
 }
 ```
+
 ### Edit User
 
 #### Request
@@ -206,7 +211,22 @@ POST `/users/logout` | Logs a user out
 }
 ```
 
-### Documents
+### Delete User
+
+#### Request
+- Endpoint: DELETE: `/users/:id`
+- Requires: Authentication
+
+#### Response
+- Status: 200 OK
+- Body
+```json
+{
+  "message": "User deleted successfully."
+}
+```
+
+## Documents
 
 Endpoint | Description
 ----------|-------------
@@ -217,9 +237,138 @@ GET `/documents/:id` | Get a particular document
 PUT `/documents/:id` | Update document attribute
 DELETE `/documents/:id` | Delete a document
 
+### List Documents
+
+#### Request
+- Endpoint: GET: `/documents`
+- Requires: Authentication
+- Optional parameters:
+  - `limit=5` Number of items to return.
+  - `offset=5` Number of items to skip.
+
+#### Response
+- Status: 200 OK
+- Body
+```json
+[
+  {
+    "id": 1,
+    "title": "Self-enabling scalable neural-net",
+    "content": "Ad cumque odit fuga qui et. Hic sed nobis et dolorem. Saepe aut fugiat magni. Placeat sit quibusdam cum ut.",
+    "OwnerId": 2,
+    "access": "role",
+    "createdAt": "2016-12-06T06:44:54.792Z",
+    "updatedAt": "2016-12-06T06:44:54.792Z"
+  }, {
+    "id": 2,
+    "title": "De-engineered explicit attitude",
+    "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
+    "OwnerId": 1,
+    "access": "private",
+    "createdAt": "2016-12-05T05:51:51.217Z",
+    "updatedAt": "2016-12-05T05:51:51.217Z"
+  }
+]
+```
+
+### Create Document
+
+#### Request
+- Endpoint: POST: `/documents`
+- Requires: Authentication
+- Body
+```json
+{
+  "title": "De-engineered explicit attitude",
+  "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
+  "OwnerId": 1,
+  "access": "private"
+}
+```
+
+#### Response
+- Status: 201 Created
+- Body
+```json
+{
+  "id": 1,
+  "title": "De-engineered explicit attitude",
+  "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
+  "OwnerId": 1,
+  "access": "private",
+  "createdAt": "2016-12-05T05:51:51.217Z",
+  "updatedAt": "2016-12-05T05:51:51.217Z"
+}
+```
+
+
+### Get Document
+
+#### Request
+- Endpoint: GET: `/documents/:id`
+- Requires: Authentication
+
+#### Response
+- Status: 200 OK
+- Body
+```json
+{
+  "id": 1,
+  "title": "De-engineered explicit attitude",
+  "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
+  "OwnerId": 1,
+  "access": "private",
+  "createdAt": "2016-12-05T05:51:51.217Z",
+  "updatedAt": "2016-12-05T05:51:51.217Z"
+}
+```
+
+### Edit Document
+
+#### Request
+- Endpoint: PUT: `/documents/:id`
+- Requires: Authentication
+- Body:
+```json
+{
+  "title": "Self-enabling scalable neural-net",
+  "content": "Ad cumque odit fuga qui et. Hic sed nobis et dolorem. Saepe aut fugiat magni. Placeat sit quibusdam cum ut."
+}
+```
+
+#### Response
+- Status: 200 OK
+- Body
+```json
+{
+  "id": 1,
+  "title": "Self-enabling scalable neural-net",
+  "content": "Ad cumque odit fuga qui et. Hic sed nobis et dolorem. Saepe aut fugiat magni. Placeat sit quibusdam cum ut.",
+  "OwnerId": 1,
+  "access": "private",
+  "createdAt": "2016-12-05T05:51:51.217Z",
+  "updatedAt": "2016-12-05T05:51:51.217Z"
+}
+```
+
+### Delete Document
+
+#### Request
+- Endpoint: DELETE: `/documents/:id`
+- Requires: Authentication
+
+#### Response
+- Status: 200 OK
+- Body
+```json
+{
+  "message": "Document deleted successfully."
+}
+```
+
 #### Pagination / Limiting
 
-Add `limit` and `offset` query parameters to the `/documents` Endpoint URL to limit the number of ducuments retured.
+Add `limit` and `offset` query parameters to the `/documents` Endpoint URL to limit the number of documents returned.
 
 GET: `/documents?limit=5&offset=5`
 
