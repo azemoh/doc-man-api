@@ -20,14 +20,15 @@
 
 - [Documents](#documents)
   - [List documents](#list-documents)
+  - [User documents](#user-documents)
   - [Create document](#create-document)
+  - [Get document](#get-document)
+  - [Edit document](#edit-document)
+  - [Delete document](#delete-document)
+
 
 ## Roles
-
-Endpoint | Description
----------|-------------
-POST `/roles` | Create a new role
-GET `/roles` | Get all roles
+Endpoint for Roles resource.
 
 ### List Roles
 
@@ -79,16 +80,7 @@ GET `/roles` | Get all roles
 ```
 
 ## Users
-
-Endpoint | Description
-----------|-------------
-GET `/users` | Get all users
-POST `/users` | Create a new user
-GET `/users/:id` | Get a particular user
-PUT `/users/:id` | Update user attribute
-DELETE `/users/:id` | Delete a user
-POST `/users/login` | Logs a user in
-POST `/users/logout` | Logs a user out
+Endpoint for Users resource.
 
 ### List Users
 
@@ -227,15 +219,7 @@ POST `/users/logout` | Logs a user out
 ```
 
 ## Documents
-
-Endpoint | Description
-----------|-------------
-POST `/documents` | Create a new document
-GET `/documents` | Get all documents
-GET `/users/:id/documents` | Get documents for a user
-GET `/documents/:id` | Get a particular document
-PUT `/documents/:id` | Update document attribute
-DELETE `/documents/:id` | Delete a document
+Endpoint for document resource.
 
 ### List Documents
 
@@ -264,6 +248,37 @@ DELETE `/documents/:id` | Delete a document
     "title": "De-engineered explicit attitude",
     "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
     "OwnerId": 1,
+    "access": "private",
+    "createdAt": "2016-12-05T05:51:51.217Z",
+    "updatedAt": "2016-12-05T05:51:51.217Z"
+  }
+]
+```
+
+### User Documents
+
+#### Request
+- Endpoint: GET: `/users/:id/documents`
+- Requires: Authentication
+
+#### Response
+- Status: 200 OK
+- Body
+```json
+[
+  {
+    "id": 1,
+    "title": "Self-enabling scalable neural-net",
+    "content": "Ad cumque odit fuga qui et. Hic sed nobis et dolorem. Saepe aut fugiat magni. Placeat sit quibusdam cum ut.",
+    "OwnerId": 2,
+    "access": "role",
+    "createdAt": "2016-12-06T06:44:54.792Z",
+    "updatedAt": "2016-12-06T06:44:54.792Z"
+  }, {
+    "id": 2,
+    "title": "De-engineered explicit attitude",
+    "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
+    "OwnerId": 2,
     "access": "private",
     "createdAt": "2016-12-05T05:51:51.217Z",
     "updatedAt": "2016-12-05T05:51:51.217Z"
