@@ -3,6 +3,22 @@ const db = require('../models');
 
 const secret = process.env.SECRET_TOKEN || 'super duper secret';
 
+
+const userAttributes = (user) => {
+  const attributes = {
+    id: user.id,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    RoleId: user.RoleId,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt
+  };
+
+  return attributes;
+};
+
 const usersCtrl = {
   /**
    * Get all users
@@ -12,7 +28,18 @@ const usersCtrl = {
    * @returns {Void} no returns
    */
   index(req, res) {
-    db.User.findAll().then((users) => {
+    db.User.findAll({
+      attributes: [
+        'id',
+        'username',
+        'firstName',
+        'lastName',
+        'email',
+        'RoleId',
+        'createdAt',
+        'updatedAt'
+      ]
+    }).then((users) => {
       res.send(users);
     });
   },
@@ -39,6 +66,7 @@ const usersCtrl = {
               RoleId: user.RoleId
             }, secret, { expiresIn: 86400 });
 
+            user = userAttributes(user);
             res.status(201).send({ token, expiresIn: 86400, user });
           })
           .catch((err) => {
@@ -62,6 +90,7 @@ const usersCtrl = {
             .send({ message: `User with id: ${req.params.id} not found` });
         }
 
+        user = userAttributes(user);
         res.send(user);
       });
   },
@@ -83,6 +112,8 @@ const usersCtrl = {
 
         user.update(req.body)
           .then((updatedUser) => {
+            updatedUser = userAttributes(updatedUser);
+
             res.send(updatedUser);
           });
       });
@@ -124,6 +155,7 @@ const usersCtrl = {
             RoleId: user.RoleId
           }, secret, { expiresIn: 86400 });
 
+          user = userAttributes(user);
           res.send({ token, expiresIn: 86400, user });
         } else {
           res.status(401)
