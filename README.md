@@ -1,12 +1,40 @@
-# Document Management API
-
 [![Build Status][travis-image]][travis-url]
-[![Code Climate][codeclimate-image]][codeclimate-url]
 [![Test Coverage][test-coverage-image]][test-coverage-url]
+[![Code Climate][codeclimate-image]][codeclimate-url]
 [![Issue Count][issues-image]][issues-url]
 
+# Document Management System API.
+Document Management System provides a restful API for users to create and manage documents. Employing token-based authentication to identify users and Role-based authorisation to grant users different level of access.
+
+Document Management System API is built with JavaScript (ES6), Node.js, Express, Postgresql and Sequelize ORM.  
+
+## Local Development
+Follow the steps below to setup a local development environment. First ensure you have [Postgresql](https://www.postgresql.org/) installed, and a version of [Node.js](http://nodejs.org/) equal or greater than v6.8.0.
+
+1. Clone this repository from a terminal `git clone git@github.com:azemoh/doc-man-api.git`.
+1. Move into the project directory `cd doc-man-api`
+1. Install project dependencies `npm install`
+1. Create Postgresql database and run migrations `npm run db:setup`.
+1. Start the express server `npm start`.
+1. Run test `npm test`.
+
+## Deployment
+Deploy this project to Heroku by clicking the button below.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/azemoh/doc-man-api)
+
+Set a `SECRET_TOKEN` environmet variable, and make sure to create a Postgresql add-on.
+
+---
 
 # API Documentation
+The API has predictable, resource-oriented URLs, and uses HTTP response codes to indicate API status and errors.
+
+## Authentication
+Users are assigned a token when their accounts are created or they login to the system.This token is needed for subsequent HTTP requests to the API for authentication. API requests made without authentication will fail with the status code `401: Unauthorized`.
+
+The following are some sample request and response form the API.
+
 - [Roles](#roles)
   - [List roles](#list-roles)
   - [Create role](#create-role)
@@ -37,7 +65,7 @@ Endpoint for Roles resource.
 - Requires: Authentication
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 [
@@ -68,7 +96,7 @@ Endpoint for Roles resource.
 ```
 
 #### Response
-- Status: 201 Created
+- Status: `201: Created`
 - Body `(application/json)`
 ```json
 {
@@ -89,7 +117,7 @@ Endpoint for Users resource.
 - Requires: Authentication
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 [
@@ -132,7 +160,7 @@ Endpoint for Users resource.
 ```
 
 #### Response
-- Status: 201 Created
+- Status: `201: Created`
 - Body `(application/json)`
 ```json
 {
@@ -158,7 +186,7 @@ Endpoint for Users resource.
 - Requires: Authentication
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 {
@@ -188,7 +216,7 @@ Endpoint for Users resource.
 ```
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 {
@@ -210,7 +238,7 @@ Endpoint for Users resource.
 - Requires: Authentication
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 {
@@ -226,12 +254,12 @@ Endpoint for document resource.
 #### Request
 - Endpoint: GET: `/documents`
 - Requires: Authentication
-- Optional parameters:
+- Optional parameters for limiting and pagination:
   - `limit=5` Number of items to return.
   - `offset=5` Number of items to skip.
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 [
@@ -262,7 +290,7 @@ Endpoint for document resource.
 - Requires: Authentication
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 [
@@ -302,7 +330,7 @@ Endpoint for document resource.
 ```
 
 #### Response
-- Status: 201 Created
+- Status: `201: Created`
 - Body `(application/json)`
 ```json
 {
@@ -324,7 +352,7 @@ Endpoint for document resource.
 - Requires: Authentication
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 {
@@ -352,7 +380,7 @@ Endpoint for document resource.
 ```
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 {
@@ -373,20 +401,13 @@ Endpoint for document resource.
 - Requires: Authentication
 
 #### Response
-- Status: 200 OK
+- Status: `200: OK`
 - Body `(application/json)`
 ```json
 {
   "message": "Document deleted successfully."
 }
 ```
-
-#### Pagination / Limiting
-
-Add `limit` and `offset` query parameters to the `/documents` Endpoint URL to limit the number of documents returned.
-
-GET: `/documents?limit=5&offset=5`
-
 
 [travis-url]: https://travis-ci.org/azemoh/doc-man-api
 [travis-image]: https://travis-ci.org/azemoh/doc-man-api.svg
