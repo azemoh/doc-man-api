@@ -155,8 +155,7 @@ const usersCtrl = {
             RoleId: user.RoleId
           }, secret, { expiresIn: 86400 });
 
-          user = userAttributes(user);
-          res.send({ token, expiresIn: 86400, user });
+          res.send({ token, expiresIn: 86400 });
         } else {
           res.status(401)
             .send({ message: 'Failed to authenticate.' });
