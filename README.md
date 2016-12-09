@@ -18,6 +18,11 @@ Follow the steps below to setup a local development environment. First ensure yo
 1. Start the express server `npm start`.
 1. Run test `npm test`.
 
+### Postman Collection
+[![Run in Postman](https://run.pstmn.io/button.svg)][postman-link]
+
+Create a Postman environment and set `url` and `token` variables or download and import a production environment from this [link][postman-env-link]
+
 ## Deployment
 Deploy this project to Heroku by clicking the button below.
 
@@ -420,3 +425,7 @@ Endpoint for document resource.
 
 [issues-image]: https://codeclimate.com/github/azemoh/doc-man-api/badges/issue_count.svg
 [issues-url]: https://codeclimate.com/github/azemoh/doc-man-api
+
+[postman-link]: https://app.getpostman.com/run-collection/86124dbf83e906d9221b#?env%5BDocMan%20Production%5D=W3sia2V5IjoidXJsIiwidmFsdWUiOiJodHRwczovL2RvYy1tYW4tYXBpLmhlcm9rdWFwcC5jb20vIiwidHlwZSI6InRleHQiLCJlbmFibGVkIjp0cnVlLCJ3YXJuaW5nIjoiIn0seyJrZXkiOiJ0b2tlbiIsInZhbHVlIjoiZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SlZjMlZ5U1dRaU9qZ3NJbEp2YkdWSlpDSTZNU3dpYVdGMElqb3hORGd4TWpjME1qWTRMQ0psZUhBaU9qRTBPREV6TmpBMk5qaDkuOGVlV3FicGFrXzljeVNCdVVCenJZQmlDUVM0ZVBXckU3YUY3eHpkWGFQSSIsInR5cGUiOiJ0ZXh0IiwiZW5hYmxlZCI6dHJ1ZSwid2FybmluZyI6IiJ9XQ==
+
+[postman-env-link]: https://gist.github.com/azemoh/3f8b302d83548744c06b47dffd6c04ed#file-docman-production-postman_environment-json
