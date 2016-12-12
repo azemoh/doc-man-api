@@ -48,12 +48,11 @@ describe('User model', () => {
 
   describe('Update user', () => {
     it('hashes update password', () =>
-      user.save().then(newUser =>
-        newUser.update({ password: 'newpassword' })
-          .then((updatedUser) => {
-            expect(updatedUser.password).to.not.equal('newpassword');
-          })
-    ));
+      user.save()
+        .then(newUser => newUser.update({ password: 'newpassword' }))
+        .then((updatedUser) => {
+          expect(updatedUser.password).to.not.equal('newpassword');
+        }));
   });
 
   describe('Validations', () => {
@@ -73,15 +72,14 @@ describe('User model', () => {
     describe('UNIQUE attributes', () => {
       uniqueAttrs.forEach((attr) => {
         it(`fails for non unique ${attr}`, () =>
-          user.save().then((newUser) => {
-            const user2 = db.User.build(userParams);
-            user2.RoleId = newUser.RoleId;
-
-            return user2.save()
-              .then(newUser2 => expect(newUser2).to.not.exist)
-              .catch(err =>
-                expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true);
-          }));
+          user.save()
+            .then((newUser) => {
+              userParams.RoleId = newUser.RoleId;
+              return db.User.build(userParams).save();
+            })
+            .then(newUser2 => expect(newUser2).to.not.exist)
+            .catch(err =>
+              expect(/UniqueConstraintError/.test(err.name)).to.be.true));
       });
     });
 

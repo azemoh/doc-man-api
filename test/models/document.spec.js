@@ -12,15 +12,15 @@ let document;
 
 describe('Document model', () => {
   beforeEach(() =>
-    db.Role.create(helper.role).then((role) => {
-      userParams.RoleId = role.id;
-      return db.User.create(userParams)
-        .then((owner) => {
-          documnetParams.OwnerId = owner.id;
-          document = db.Document.build(documnetParams);
-        });
-    })
-  );
+    db.Role.create(helper.role)
+      .then((role) => {
+        userParams.RoleId = role.id;
+        return db.User.create(userParams);
+      })
+      .then((owner) => {
+        documnetParams.OwnerId = owner.id;
+        document = db.Document.build(documnetParams);
+      }));
 
   // clear DB after each test
   afterEach(() => db.Document.sequelize.sync({ force: true }));

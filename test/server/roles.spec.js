@@ -14,13 +14,13 @@ describe('Roles API', () => {
       .then((newRole) => {
         userParams.RoleId = newRole.id;
         role = newRole;
-        return db.User.create(userParams)
-          .then(() => {
-            request.post('/users/login')
-              .send(userParams)
-              .end((err, res) => {
-                token = res.body.token;
-              });
+        return db.User.create(userParams);
+      })
+      .then(() => {
+        request.post('/users/login')
+          .send(userParams)
+          .end((err, res) => {
+            token = res.body.token;
           });
       }));
 
@@ -130,16 +130,16 @@ describe('Roles API', () => {
       db.Role.create({ title: 'regular' })
         .then((newRole) => {
           helper.user2.RoleId = newRole.id;
-          db.User.create(helper.user2)
-            .then(() => {
-              request.post('/users/login')
-                .send(helper.user2)
-                .end((err, res) => {
-                  request.post('/roles')
-                    .set({ Authorization: res.body.token })
-                    .send({ title: 'other' })
-                    .expect(403, done);
-                });
+          return db.User.create(helper.user2);
+        })
+        .then(() => {
+          request.post('/users/login')
+            .send(helper.user2)
+            .end((err, res) => {
+              request.post('/roles')
+                .set({ Authorization: res.body.token })
+                .send({ title: 'other' })
+                .expect(403, done);
             });
         });
     });
