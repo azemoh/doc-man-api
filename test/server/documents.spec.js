@@ -15,18 +15,18 @@ describe('Document API', () => {
       db.Role.create(helper.role)
         .then((role) => {
           userParams.RoleId = role.id;
-          return db.User.create(userParams)
-            .then((user) => {
-              documentParams.OwnerId = user.id;
-              return db.Document.create(documentParams)
-                .then((newDocument) => {
-                  document = newDocument;
-                  request.post('/users/login')
-                    .send(userParams)
-                    .end((err, res) => {
-                      token = res.body.token;
-                    });
-                });
+          return db.User.create(userParams);
+        })
+        .then((user) => {
+          documentParams.OwnerId = user.id;
+          return db.Document.create(documentParams);
+        })
+        .then((newDocument) => {
+          document = newDocument;
+          request.post('/users/login')
+            .send(userParams)
+            .end((err, res) => {
+              token = res.body.token;
             });
         }));
 
@@ -132,12 +132,11 @@ describe('Document API', () => {
       db.Role.create(helper.role)
         .then((role) => {
           userParams.RoleId = role.id;
-          return db.User.create(userParams)
-            .then((user) => {
-              documentParams.OwnerId = user.id;
-            });
+          return db.User.create(userParams);
         })
-    );
+        .then((user) => {
+          documentParams.OwnerId = user.id;
+        }));
 
     afterEach(() => db.Document.sequelize.sync({ force: true }));
 

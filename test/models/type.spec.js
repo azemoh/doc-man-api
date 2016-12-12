@@ -34,10 +34,11 @@ describe('Type model', () => {
     );
 
     it('fails for non unique title', () =>
-      type.save().then(() =>
-        Type.create(typeParams)
-          .then(newType => expect(newType).to.not.exist)
-          .catch(err =>
-            expect(/SequelizeUniqueConstraintError/.test(err.name)).to.be.true)));
+      type.save()
+        .then(() => Type.create(typeParams))
+        .then(newType => expect(newType).to.not.exist)
+        .catch(err =>
+          expect(/UniqueConstraintError/.test(err.name)).to.be.true)
+    );
   });
 });

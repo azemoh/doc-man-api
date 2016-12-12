@@ -15,14 +15,14 @@ describe('User API', () => {
       db.Role.create(roleParams)
         .then((role) => {
           usersParams.RoleId = role.id;
-          return db.User.create(usersParams)
-            .then((newUser) => {
-              user = newUser;
-              request.post('/users/login')
-                .send(usersParams)
-                .end((err, res) => {
-                  token = res.body.token;
-                });
+          return db.User.create(usersParams);
+        })
+        .then((newUser) => {
+          user = newUser;
+          request.post('/users/login')
+            .send(usersParams)
+            .end((err, res) => {
+              token = res.body.token;
             });
         }));
 

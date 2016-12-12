@@ -14,13 +14,13 @@ describe('Authorisation middleware', () => {
     db.Role.create(roleParams)
       .then((role) => {
         params.RoleId = role.id;
-        return db.User.create(params)
-          .then(() => {
-            request.post('/users/login')
-              .send(params)
-              .end((err, res) => {
-                token = res.body.token;
-              });
+        return db.User.create(params);
+      })
+      .then(() => {
+        request.post('/users/login')
+          .send(params)
+          .end((err, res) => {
+            token = res.body.token;
           });
       }));
 

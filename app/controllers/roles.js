@@ -87,8 +87,8 @@ const rolesCtrl = {
             .send({ message: `Role with id: ${req.params.id} not found` });
         }
 
-        db.Role.destroy({ where: { id: req.params.id } });
-        res.send({ message: 'Role deleted succeffully.' });
+        role.destroy()
+          .then(() => res.send({ message: 'Role deleted succeffully.' }));
       });
   }
 };

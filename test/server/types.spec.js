@@ -14,16 +14,16 @@ describe('Types API Endpoint', () => {
       db.Role.create(helper.role)
         .then((role) => {
           userParams.RoleId = role.id;
-          return db.User.create(userParams)
-            .then(() =>
-              db.Type.create(helper.type).then((newType) => {
-                type = newType;
-                request.post('/users/login')
-                  .send(userParams)
-                  .end((err, res) => {
-                    token = res.body.token;
-                  });
-              }));
+          return db.User.create(userParams);
+        })
+        .then(() => db.Type.create(helper.type))
+        .then((newType) => {
+          type = newType;
+          request.post('/users/login')
+            .send(userParams)
+            .end((err, res) => {
+              token = res.body.token;
+            });
         }));
 
     afterEach(() => db.Type.sequelize.sync({ force: true }));
