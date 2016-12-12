@@ -134,8 +134,8 @@ const usersCtrl = {
             .send({ message: `User with id: ${req.params.id} not found` });
         }
 
-        user.destroy();
-        res.send({ message: 'User deleted succeffully.' });
+        user.destroy()
+          .then(() => res.send({ message: 'User deleted succeffully.' }));
       });
   },
 

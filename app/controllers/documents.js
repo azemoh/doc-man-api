@@ -92,8 +92,8 @@ const documentsCtrl = {
             .send({ message: `Document with id: ${req.params.id} not found` });
         }
 
-        document.destroy();
-        res.send({ message: 'Document deleted succeffully.' });
+        document.destroy()
+          .then(() => res.send({ message: 'Document deleted succeffully.' }));
       });
   },
 

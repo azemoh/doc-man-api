@@ -87,8 +87,8 @@ const typesCtrl = {
             .send({ message: `Type with id: ${req.params.id} not found` });
         }
 
-        type.destroy();
-        res.send({ message: 'Type deleted succeffully.' });
+        type.destroy()
+          .then(() => res.send({ message: 'Type deleted succeffully.' }));
       });
   }
 };
