@@ -88,7 +88,7 @@ const typesCtrl = {
         }
 
         type.destroy()
-          .then(() => res.send({ message: 'Type deleted succeffully.' }));
+          .then(() => res.send({ message: 'Type deleted successfully.' }));
       });
   }
 };

@@ -128,7 +128,7 @@ describe('User API', () => {
     });
 
     describe('Login POST: /users/login', () => {
-      it('should return a token on sucessfull login', (done) => {
+      it('should return a token on successful login', (done) => {
         request.post('/users/login')
           .send(usersParams)
           .end((err, res) => {

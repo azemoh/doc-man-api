@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const documnetParams = helper.document;
+const documentParams = helper.document;
 const userParams = helper.user;
 
 
@@ -18,8 +18,8 @@ describe('Document model', () => {
         return db.User.create(userParams);
       })
       .then((owner) => {
-        documnetParams.OwnerId = owner.id;
-        document = db.Document.build(documnetParams);
+        documentParams.OwnerId = owner.id;
+        document = db.Document.build(documentParams);
       }));
 
   // clear DB after each test
@@ -30,8 +30,8 @@ describe('Document model', () => {
       expect(document).to.exist);
 
     it('has both title and content', () => {
-      expect(document.title).to.equal(documnetParams.title);
-      expect(document.content).to.equal(documnetParams.content);
+      expect(document.title).to.equal(documentParams.title);
+      expect(document.content).to.equal(documentParams.content);
     });
 
     it('saves document with valid attributes', () =>

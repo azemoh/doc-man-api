@@ -135,7 +135,7 @@ const usersCtrl = {
         }
 
         user.destroy()
-          .then(() => res.send({ message: 'User deleted succeffully.' }));
+          .then(() => res.send({ message: 'User deleted successfully.' }));
       });
   },
 

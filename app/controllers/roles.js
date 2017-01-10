@@ -88,7 +88,7 @@ const rolesCtrl = {
         }
 
         role.destroy()
-          .then(() => res.send({ message: 'Role deleted succeffully.' }));
+          .then(() => res.send({ message: 'Role deleted successfully.' }));
       });
   }
 };

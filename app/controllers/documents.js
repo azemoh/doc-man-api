@@ -93,7 +93,7 @@ const documentsCtrl = {
         }
 
         document.destroy()
-          .then(() => res.send({ message: 'Document deleted succeffully.' }));
+          .then(() => res.send({ message: 'Document deleted successfully.' }));
       });
   },
 
