@@ -6,7 +6,7 @@ const typesCtrl = {
    * Route: GET: /types
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   index(req, res) {
     db.Type.findAll().then((types) => {
@@ -19,7 +19,7 @@ const typesCtrl = {
    * Route: POST: /types
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   create(req, res) {
     db.Type.create(req.body)
@@ -36,7 +36,7 @@ const typesCtrl = {
    * Route: GET: /types/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void|Response} response object or void
+   * @returns {void|Response} response object or void
    */
   show(req, res) {
     db.Type.findById(req.params.id)
@@ -55,7 +55,7 @@ const typesCtrl = {
    * Route: PUT: /types/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   edit(req, res) {
     db.Type.findById(req.params.id)
@@ -77,7 +77,7 @@ const typesCtrl = {
    * Route: DELETE: /types/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   destroy(req, res) {
     db.Type.findById(req.params.id)

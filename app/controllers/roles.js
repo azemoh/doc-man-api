@@ -6,7 +6,7 @@ const rolesCtrl = {
    * Route: GET: /roles
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   index(req, res) {
     db.Role.findAll().then((roles) => {
@@ -19,7 +19,7 @@ const rolesCtrl = {
    * Route: POST: /roles
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   create(req, res) {
     db.Role.create(req.body)
@@ -36,7 +36,7 @@ const rolesCtrl = {
    * Route: GET: /roles/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void|Response} response object or void
+   * @returns {void|Response} response object or void
    */
   show(req, res) {
     db.Role.findById(req.params.id)
@@ -55,7 +55,7 @@ const rolesCtrl = {
    * Route: PUT: /roles/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   edit(req, res) {
     db.Role.findById(req.params.id)
@@ -77,7 +77,7 @@ const rolesCtrl = {
    * Route: DELETE: /roles/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   destroy(req, res) {
     db.Role.findById(req.params.id)

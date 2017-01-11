@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       /**
        * Hash user's password
        * @method
-       * @returns {Void} no return
+       * @returns {void} no return
        */
       hashPassword() {
         this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));

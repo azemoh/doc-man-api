@@ -33,7 +33,7 @@ describe('Document API', () => {
     afterEach(() => db.Document.sequelize.sync({ force: true }));
 
     describe('Get all GET: /documents', () => {
-      it('should return unauthorised for no token', (done) => {
+      it('should return unauthorised without a token', (done) => {
         request.get('/documents')
           .end((err, res) => {
             expect(res.status).to.equal(401);
@@ -141,7 +141,7 @@ describe('Document API', () => {
     afterEach(() => db.Document.sequelize.sync({ force: true }));
 
     describe('Create document POST: /document', () => {
-      it('creates a new user and returns a token', (done) => {
+      it('creates a new document', (done) => {
         request.post('/documents')
           .set({ Authorization: token })
           .send(documentParams)

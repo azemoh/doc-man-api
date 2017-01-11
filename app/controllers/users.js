@@ -25,7 +25,7 @@ const usersCtrl = {
    * Route: GET: /users
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   index(req, res) {
     db.User.findAll({
@@ -49,7 +49,7 @@ const usersCtrl = {
    * Route: POST: /users
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   create(req, res) {
     db.User.findOne({ where: { email: req.body.email } })
@@ -80,7 +80,7 @@ const usersCtrl = {
    * Route: GET: /users/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   show(req, res) {
     db.User.findById(req.params.id)
@@ -100,7 +100,7 @@ const usersCtrl = {
    * Route: PUT: /users/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   edit(req, res) {
     db.User.findById(req.params.id)
@@ -124,7 +124,7 @@ const usersCtrl = {
    * Route: DELETE: /users/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   destroy(req, res) {
     db.User.findById(req.params.id)
@@ -144,7 +144,7 @@ const usersCtrl = {
    * Route: POST: /users/login
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   login(req, res) {
     db.User.findOne({ where: { email: req.body.email } })

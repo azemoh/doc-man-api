@@ -27,7 +27,7 @@ describe('Authorisation middleware', () => {
   // clear DB after each test
   afterEach(() => db.User.sequelize.sync({ force: true }));
 
-  it('should return unauthorised for no token', (done) => {
+  it('should return unauthorised without a token', (done) => {
     request.get('/users')
       .end((err, res) => {
         expect(res.status).to.equal(401);

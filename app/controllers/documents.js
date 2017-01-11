@@ -6,7 +6,7 @@ const documentsCtrl = {
    * Route: GET: /documents
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   index(req, res) {
     const query = {
@@ -24,7 +24,7 @@ const documentsCtrl = {
    * Route: POST: /documents
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   create(req, res) {
     db.Document.create(req.body)
@@ -41,7 +41,7 @@ const documentsCtrl = {
    * Route: GET: /documents/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void|Response} response object or void
+   * @returns {void|Response} response object or void
    */
   show(req, res) {
     db.Document.findById(req.params.id)
@@ -60,7 +60,7 @@ const documentsCtrl = {
    * Route: PUT: /documents/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   edit(req, res) {
     db.Document.findById(req.params.id)
@@ -82,7 +82,7 @@ const documentsCtrl = {
    * Route: DELETE: /documents/:id
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Response|Void} response object or void
+   * @returns {Response|void} response object or void
    */
   destroy(req, res) {
     db.Document.findById(req.params.id)
@@ -102,7 +102,7 @@ const documentsCtrl = {
    * Route: GET: /users/:id/documents
    * @param {Object} req request object
    * @param {Object} res response object
-   * @returns {Void} no returns
+   * @returns {void} no returns
    */
   userDocuments(req, res) {
     db.Document.findAll({ where: { OwnerId: req.params.id } })
