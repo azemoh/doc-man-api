@@ -17,11 +17,6 @@
     "logging": false
   },
   "production": {
-    "use_env_variable": "DATABASE_URL",
-    "username": "root",
-    "password": null,
-    "database": "doc_man_production",
-    "protocol": "postgres",
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL"
   }
 }
