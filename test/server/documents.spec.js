@@ -7,30 +7,34 @@ const helper = require('../test.helper');
 const documentParams = helper.document;
 const userParams = helper.user;
 
-let document, token;
+let document, user, token;
 
 describe('Document API', () => {
+  before((done) => {
+    db.Role.create(helper.role)
+      .then((role) => {
+        userParams.RoleId = role.id;
+        request.post('/users')
+          .send(userParams)
+          .end((err, res) => {
+            user = res.body.user;
+            token = res.body.token;
+            documentParams.OwnerId = user.id;
+            done();
+          });
+      });
+  });
+
+  after(() => db.Document.sequelize.sync({ force: true }));
+
   describe('With existing document', () => {
     beforeEach(() =>
-      db.Role.create(helper.role)
-        .then((role) => {
-          userParams.RoleId = role.id;
-          return db.User.create(userParams);
-        })
-        .then((user) => {
-          documentParams.OwnerId = user.id;
-          return db.Document.create(documentParams);
-        })
+      db.Document.create(documentParams)
         .then((newDocument) => {
           document = newDocument;
-          request.post('/users/login')
-            .send(userParams)
-            .end((err, res) => {
-              token = res.body.token;
-            });
         }));
 
-    afterEach(() => db.Document.sequelize.sync({ force: true }));
+    afterEach(() => db.Document.destroy({ where: {} }));
 
     describe('Get all GET: /documents', () => {
       it('should return unauthorised without a token', (done) => {
@@ -128,17 +132,7 @@ describe('Document API', () => {
   });
 
   describe('Without existing document', () => {
-    beforeEach(() =>
-      db.Role.create(helper.role)
-        .then((role) => {
-          userParams.RoleId = role.id;
-          return db.User.create(userParams);
-        })
-        .then((user) => {
-          documentParams.OwnerId = user.id;
-        }));
-
-    afterEach(() => db.Document.sequelize.sync({ force: true }));
+    afterEach(() => db.Document.destroy({ where: {} }));
 
     describe('Create document POST: /document', () => {
       it('creates a new document', (done) => {

@@ -4,30 +4,36 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const usersParams = helper.user;
+const userParams = helper.user;
 const roleParams = helper.role;
 
 let user, token;
 
 describe('User API', () => {
+  before(() =>
+    db.Role.create(roleParams)
+      .then((role) => {
+        userParams.RoleId = role.id;
+      }));
+
+  after(() => db.User.sequelize.sync({ force: true }));
+
   describe('With existing user', () => {
-    beforeEach(() =>
-      db.Role.create(roleParams)
-        .then((role) => {
-          usersParams.RoleId = role.id;
-          return db.User.create(usersParams);
-        })
+    beforeEach((done) => {
+      db.User.create(userParams)
         .then((newUser) => {
           user = newUser;
           request.post('/users/login')
-            .send(usersParams)
+            .send(userParams)
             .end((err, res) => {
               token = res.body.token;
+              done();
             });
-        }));
+        });
+    });
 
     // clear DB after each test
-    afterEach(() => db.User.sequelize.sync({ force: true }));
+    afterEach(() => db.User.destroy({ where: {} }));
 
     describe('Get All GET: /users', () => {
       it('should return unauthorised for no token', (done) => {
@@ -130,7 +136,7 @@ describe('User API', () => {
     describe('Login POST: /users/login', () => {
       it('should return a token on successful login', (done) => {
         request.post('/users/login')
-          .send(usersParams)
+          .send(userParams)
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(res.body.token).to.exist;
@@ -158,19 +164,13 @@ describe('User API', () => {
   });
 
   describe('Without existing user', () => {
-    beforeEach(() =>
-      db.Role.create(roleParams)
-        .then((role) => {
-          usersParams.RoleId = role.id;
-        }));
-
     // clear DB after each test
-    afterEach(() => db.User.sequelize.sync({ force: true }));
+    afterEach(() => db.User.destroy({ where: {} }));
 
     describe('Create user POST: /users', () => {
       it('creates a new user and returns a token', (done) => {
         request.post('/users')
-          .send(usersParams)
+          .send(userParams)
           .end((err, res) => {
             expect(res.status).to.equal(201);
             expect(res.body.token).to.exist;
@@ -178,16 +178,18 @@ describe('User API', () => {
           });
       });
 
-      it('fails if user already exist', () =>
-        db.User.create(usersParams).then(() => {
-          request.post('/users')
-            .send(usersParams)
-            .end((err, res) => {
-              expect(res.status).to.equal(409);
-              expect(res.body.token).to.not.exist;
-            });
-        })
-      );
+      it('fails if user already exist', (done) => {
+        db.User.create(userParams)
+          .then(() => {
+            request.post('/users')
+              .send(userParams)
+              .end((err, res) => {
+                expect(res.status).to.equal(409);
+                expect(res.body.token).to.not.exist;
+                done();
+              });
+          });
+      });
 
       it('fails for invalid user attributes', (done) => {
         const invalidParams = { firstName: 'Adam', name: 'King' };
