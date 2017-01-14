@@ -26,8 +26,7 @@ describe('Document model', () => {
   afterEach(() => db.Document.sequelize.sync({ force: true }));
 
   describe('Create document', () => {
-    it('creates a Document instance', () =>
-      expect(document).to.exist);
+    it('creates a Document instance', () => expect(document).to.exist);
 
     it('has both title and content', () => {
       expect(document.title).to.equal(documentParams.title);
@@ -35,15 +34,21 @@ describe('Document model', () => {
     });
 
     it('saves document with valid attributes', () =>
-      document.save().then((newDocument) => {
-        expect(newDocument.title).to.equal(document.title);
-        expect(newDocument.content).to.equal(document.content);
-      }).catch(err => expect(err).to.not.exist));
+      document.save()
+        .then((newDocument) => {
+          expect(newDocument.title).to.equal(document.title);
+          expect(newDocument.content).to.equal(document.content);
+        }).catch(err => expect(err).to.not.exist));
 
     it('sets default access to public', () =>
-      document.save().then((newDocument) => {
-        expect(newDocument.access).to.equal('public');
-      }).catch(err => expect(err).to.not.exist));
+      document.save()
+        .then(newDocument => expect(newDocument.access).to.equal('public'))
+        .catch(err => expect(err).to.not.exist));
+
+    it('has a published date defined', () =>
+      document.save()
+        .then(newDocument => expect(newDocument.createdAt).to.exist)
+        .catch(err => expect(err).to.not.exist));
   });
 
   describe('Validations', () => {
@@ -51,21 +56,18 @@ describe('Document model', () => {
       notNullAttrs.forEach((attr) => {
         it(`fails without ${attr}`, () => {
           document[attr] = null;
-
           return document.save()
             .then(newDocument => expect(newDocument).to.not.exist)
-            .catch(err =>
-              expect(/notNull/.test(err.message)).to.be.true);
+            .catch(err => expect(/notNull/.test(err.message)).to.be.true);
         });
       });
     });
 
-    it('fails for invalid access', () => {
+    it('fails for invalid access type', () => {
       document.access = 'invalid access';
       return document.save()
         .then(newDocument => expect(newDocument).to.not.exist)
-        .catch(err =>
-          expect(/isIn failed/.test(err.message)).to.be.true);
+        .catch(err => expect(/isIn failed/.test(err.message)).to.be.true);
     });
   });
 });
