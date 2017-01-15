@@ -4,9 +4,14 @@ if (process.env.NODE_ENV !== 'test') {
 const faker = require('faker');
 
 module.exports = {
-  role: {
+  adminRole: {
     title: 'admin'
   },
+
+  regularRole: {
+    title: 'regular'
+  },
+
   type: {
     title: 'legal'
   },
@@ -29,5 +34,11 @@ module.exports = {
   document: {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph()
+  },
+
+  privateDocument: {
+    title: faker.company.catchPhrase(),
+    content: faker.lorem.paragraph(),
+    access: 'private'
   }
 };

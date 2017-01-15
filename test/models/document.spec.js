@@ -11,19 +11,22 @@ const notNullAttrs = ['title', 'content', 'OwnerId'];
 let document;
 
 describe('Document model', () => {
-  beforeEach(() =>
-    db.Role.create(helper.role)
+  before(() =>
+    db.Role.create(helper.adminRole)
       .then((role) => {
         userParams.RoleId = role.id;
         return db.User.create(userParams);
       })
       .then((owner) => {
         documentParams.OwnerId = owner.id;
-        document = db.Document.build(documentParams);
       }));
 
+  beforeEach(() => {
+    document = db.Document.build(documentParams);
+  });
+
   // clear DB after each test
-  afterEach(() => db.Document.sequelize.sync({ force: true }));
+  after(() => db.Document.sequelize.sync({ force: true }));
 
   describe('Create document', () => {
     it('creates a Document instance', () => expect(document).to.exist);

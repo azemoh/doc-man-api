@@ -9,24 +9,29 @@ const userParams = helper.user;
 let type, token;
 
 describe('Types API Endpoint', () => {
+  before((done) => {
+    db.Role.create(helper.regularRole)
+      .then((role) => {
+        userParams.RoleId = role.id;
+        request.post('/users')
+          .send(userParams)
+          .end((err, res) => {
+            token = res.body.token;
+            done();
+          });
+      });
+  });
+
+  after(() => db.Type.sequelize.sync({ force: true }));
+
   describe('With existing type', () => {
     beforeEach(() =>
-      db.Role.create(helper.role)
-        .then((role) => {
-          userParams.RoleId = role.id;
-          return db.User.create(userParams);
-        })
-        .then(() => db.Type.create(helper.type))
+      db.Type.create(helper.type)
         .then((newType) => {
           type = newType;
-          request.post('/users/login')
-            .send(userParams)
-            .end((err, res) => {
-              token = res.body.token;
-            });
         }));
 
-    afterEach(() => db.Type.sequelize.sync({ force: true }));
+    afterEach(() => db.Type.destroy({ where: {} }));
 
     describe('Get all GET: /types', () => {
       it('should return unauthorised for no token', (done) => {
@@ -110,7 +115,7 @@ describe('Types API Endpoint', () => {
   });
 
   describe('Without existing type', () => {
-    afterEach(() => db.Type.sequelize.sync({ force: true }));
+    afterEach(() => db.Type.destroy({ where: {} }));
 
     describe('Create types POST: /types', () => {
       it('should return unauthorised for no token', (done) => {

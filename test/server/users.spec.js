@@ -5,7 +5,7 @@ const db = require('../../app/models');
 const helper = require('../test.helper');
 
 const userParams = helper.user;
-const roleParams = helper.role;
+const roleParams = helper.adminRole;
 
 let user, token;
 

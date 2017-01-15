@@ -11,7 +11,7 @@ let document, user, token;
 
 describe('Document API', () => {
   before((done) => {
-    db.Role.create(helper.role)
+    db.Role.create(helper.regularRole)
       .then((role) => {
         userParams.RoleId = role.id;
         request.post('/users')
