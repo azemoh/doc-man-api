@@ -4,13 +4,19 @@ if (process.env.NODE_ENV !== 'test') {
 const faker = require('faker');
 
 module.exports = {
-  role: {
+  adminRole: {
     title: 'admin'
   },
+
+  regularRole: {
+    title: 'regular'
+  },
+
   type: {
     title: 'legal'
   },
-  user: {
+
+  firstUser: {
     username: faker.internet.userName(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -18,7 +24,7 @@ module.exports = {
     password: faker.internet.password()
   },
 
-  user2: {
+  secondUser: {
     username: faker.internet.userName(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -26,8 +32,28 @@ module.exports = {
     password: faker.internet.password()
   },
 
-  document: {
+  thirdUser: {
+    username: faker.internet.userName(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  },
+
+  publicDocument: {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph()
+  },
+
+  privateDocument: {
+    title: faker.company.catchPhrase(),
+    content: faker.lorem.paragraph(),
+    access: 'private'
+  },
+
+  roleDocument: {
+    title: faker.company.catchPhrase(),
+    content: faker.lorem.paragraph(),
+    access: 'role'
   }
 };

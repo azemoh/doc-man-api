@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const userParams = helper.user;
-const roleParams = helper.role;
+const userParams = helper.firstUser;
+const roleParams = helper.regularRole;
 
 const notNullAttrs = ['firstName', 'lastName', 'email', 'password', 'RoleId'];
 const uniqueAttrs = ['username', 'email'];
@@ -11,15 +11,20 @@ const uniqueAttrs = ['username', 'email'];
 let user;
 
 describe('User model', () => {
-  beforeEach(() =>
+  before(() =>
     db.Role.create(roleParams)
       .then((role) => {
         userParams.RoleId = role.id;
-        user = db.User.build(userParams);
       }));
 
+  beforeEach(() => {
+    user = db.User.build(userParams);
+  });
+
   // clear DB after each test
-  afterEach(() => db.User.sequelize.sync({ force: true }));
+  after(() => db.User.sequelize.sync({ force: true }));
+
+  afterEach(() => db.User.destroy({ where: {} }));
 
   describe('Create user', () => {
     it('creates a User instance', () =>

@@ -4,30 +4,33 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const usersParams = helper.user;
-const roleParams = helper.role;
+const userParams = helper.firstUser;
+const roleParams = helper.adminRole;
 
 let user, token;
 
 describe('User API', () => {
+  before(() =>
+    db.Role.create(roleParams)
+      .then((role) => {
+        userParams.RoleId = role.id;
+      }));
+
+  after(() => db.User.sequelize.sync({ force: true }));
+
   describe('With existing user', () => {
-    beforeEach(() =>
-      db.Role.create(roleParams)
-        .then((role) => {
-          usersParams.RoleId = role.id;
-          return db.User.create(usersParams);
-        })
-        .then((newUser) => {
-          user = newUser;
-          request.post('/users/login')
-            .send(usersParams)
-            .end((err, res) => {
-              token = res.body.token;
-            });
-        }));
+    beforeEach((done) => {
+      request.post('/users')
+        .send(userParams)
+        .end((err, res) => {
+          user = res.body.user;
+          token = res.body.token;
+          done();
+        });
+    });
 
     // clear DB after each test
-    afterEach(() => db.User.sequelize.sync({ force: true }));
+    afterEach(() => db.User.destroy({ where: {} }));
 
     describe('Get All GET: /users', () => {
       it('should return unauthorised for no token', (done) => {
@@ -41,16 +44,13 @@ describe('User API', () => {
       it('should return unauthorised if user is not an admin', (done) => {
         db.Role.create({ title: 'regular' })
           .then((role) => {
-            helper.user2.RoleId = role.id;
-            db.User.create(helper.user2)
-              .then(() => {
-                request.post('/users/login')
-                  .send(helper.user2)
-                  .end((err, res) => {
-                    request.get('/users')
-                      .set({ Authorization: res.body.token })
-                      .expect(403, done);
-                  });
+            helper.secondUser.RoleId = role.id;
+            request.post('/users')
+              .send(helper.secondUser)
+              .end((err, res) => {
+                request.get('/users')
+                  .set({ Authorization: res.body.token })
+                  .expect(403, done);
               });
           });
       });
@@ -130,7 +130,7 @@ describe('User API', () => {
     describe('Login POST: /users/login', () => {
       it('should return a token on successful login', (done) => {
         request.post('/users/login')
-          .send(usersParams)
+          .send(userParams)
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(res.body.token).to.exist;
@@ -158,19 +158,13 @@ describe('User API', () => {
   });
 
   describe('Without existing user', () => {
-    beforeEach(() =>
-      db.Role.create(roleParams)
-        .then((role) => {
-          usersParams.RoleId = role.id;
-        }));
-
     // clear DB after each test
-    afterEach(() => db.User.sequelize.sync({ force: true }));
+    afterEach(() => db.User.destroy({ where: {} }));
 
     describe('Create user POST: /users', () => {
       it('creates a new user and returns a token', (done) => {
         request.post('/users')
-          .send(usersParams)
+          .send(userParams)
           .end((err, res) => {
             expect(res.status).to.equal(201);
             expect(res.body.token).to.exist;
@@ -178,16 +172,18 @@ describe('User API', () => {
           });
       });
 
-      it('fails if user already exist', () =>
-        db.User.create(usersParams).then(() => {
-          request.post('/users')
-            .send(usersParams)
-            .end((err, res) => {
-              expect(res.status).to.equal(409);
-              expect(res.body.token).to.not.exist;
-            });
-        })
-      );
+      it('fails if user already exist', (done) => {
+        db.User.create(userParams)
+          .then(() => {
+            request.post('/users')
+              .send(userParams)
+              .end((err, res) => {
+                expect(res.status).to.equal(409);
+                expect(res.body.token).to.not.exist;
+                done();
+              });
+          });
+      });
 
       it('fails for invalid user attributes', (done) => {
         const invalidParams = { firstName: 'Adam', name: 'King' };

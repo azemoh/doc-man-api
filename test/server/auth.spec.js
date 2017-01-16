@@ -4,13 +4,13 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const params = helper.user;
-const roleParams = helper.role;
+const params = helper.firstUser;
+const roleParams = helper.adminRole;
 
 let token;
 
 describe('Authorisation middleware', () => {
-  beforeEach(() =>
+  before(() =>
     db.Role.create(roleParams)
       .then((role) => {
         params.RoleId = role.id;
@@ -25,7 +25,7 @@ describe('Authorisation middleware', () => {
       }));
 
   // clear DB after each test
-  afterEach(() => db.User.sequelize.sync({ force: true }));
+  after(() => db.User.sequelize.sync({ force: true }));
 
   it('should return unauthorised without a token', (done) => {
     request.get('/users')

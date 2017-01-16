@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const documentParams = helper.document;
-const userParams = helper.user;
+const documentParams = helper.publicDocument;
+const userParams = helper.firstUser;
 
 
 const notNullAttrs = ['title', 'content', 'OwnerId'];
@@ -11,23 +11,25 @@ const notNullAttrs = ['title', 'content', 'OwnerId'];
 let document;
 
 describe('Document model', () => {
-  beforeEach(() =>
-    db.Role.create(helper.role)
+  before(() =>
+    db.Role.create(helper.adminRole)
       .then((role) => {
         userParams.RoleId = role.id;
         return db.User.create(userParams);
       })
       .then((owner) => {
         documentParams.OwnerId = owner.id;
-        document = db.Document.build(documentParams);
       }));
 
+  beforeEach(() => {
+    document = db.Document.build(documentParams);
+  });
+
   // clear DB after each test
-  afterEach(() => db.Document.sequelize.sync({ force: true }));
+  after(() => db.Document.sequelize.sync({ force: true }));
 
   describe('Create document', () => {
-    it('creates a Document instance', () =>
-      expect(document).to.exist);
+    it('creates a Document instance', () => expect(document).to.exist);
 
     it('has both title and content', () => {
       expect(document.title).to.equal(documentParams.title);
@@ -35,15 +37,21 @@ describe('Document model', () => {
     });
 
     it('saves document with valid attributes', () =>
-      document.save().then((newDocument) => {
-        expect(newDocument.title).to.equal(document.title);
-        expect(newDocument.content).to.equal(document.content);
-      }).catch(err => expect(err).to.not.exist));
+      document.save()
+        .then((newDocument) => {
+          expect(newDocument.title).to.equal(document.title);
+          expect(newDocument.content).to.equal(document.content);
+        }).catch(err => expect(err).to.not.exist));
 
     it('sets default access to public', () =>
-      document.save().then((newDocument) => {
-        expect(newDocument.access).to.equal('public');
-      }).catch(err => expect(err).to.not.exist));
+      document.save()
+        .then(newDocument => expect(newDocument.access).to.equal('public'))
+        .catch(err => expect(err).to.not.exist));
+
+    it('has a published date defined', () =>
+      document.save()
+        .then(newDocument => expect(newDocument.createdAt).to.exist)
+        .catch(err => expect(err).to.not.exist));
   });
 
   describe('Validations', () => {
@@ -51,21 +59,18 @@ describe('Document model', () => {
       notNullAttrs.forEach((attr) => {
         it(`fails without ${attr}`, () => {
           document[attr] = null;
-
           return document.save()
             .then(newDocument => expect(newDocument).to.not.exist)
-            .catch(err =>
-              expect(/notNull/.test(err.message)).to.be.true);
+            .catch(err => expect(/notNull/.test(err.message)).to.be.true);
         });
       });
     });
 
-    it('fails for invalid access', () => {
+    it('fails for invalid access type', () => {
       document.access = 'invalid access';
       return document.save()
         .then(newDocument => expect(newDocument).to.not.exist)
-        .catch(err =>
-          expect(/isIn failed/.test(err.message)).to.be.true);
+        .catch(err => expect(/isIn failed/.test(err.message)).to.be.true);
     });
   });
 });

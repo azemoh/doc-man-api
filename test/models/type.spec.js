@@ -5,12 +5,12 @@ const typeParams = require('../test.helper').type;
 let type;
 
 describe('Type model', () => {
-  beforeEach(() => {
+  before(() => {
     type = Type.build(typeParams);
   });
 
   // clear DB after each test
-  afterEach(() => Type.sequelize.sync({ force: true }));
+  after(() => Type.sequelize.sync({ force: true }));
 
   describe('Create type', () => {
     it('creates a Type instance', () =>

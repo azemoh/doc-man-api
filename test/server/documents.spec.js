@@ -4,33 +4,45 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const documentParams = helper.document;
-const userParams = helper.user;
+const documentParams = helper.publicDocument;
+const privateDocumentParams = helper.privateDocument;
+const roleDocumentParams = helper.roleDocument;
+const userParams = helper.firstUser;
+const ownerParams = helper.secondUser;
 
-let document, token;
+let document, privateDocument, roleDocument, user, owner, adminRole, regularRole, token, ownerToken;
 
 describe('Document API', () => {
+  before((done) => {
+    db.Role.bulkCreate([helper.regularRole, helper.adminRole], {
+      returning: true
+    }).then((newRoles) => {
+      adminRole = newRoles[0];
+      regularRole = newRoles[1];
+      userParams.RoleId = regularRole.id;
+      ownerParams.RoleId = adminRole.id;
+
+      request.post('/users')
+        .send(userParams)
+        .end((err, res) => {
+          user = res.body.user;
+          token = res.body.token;
+          documentParams.OwnerId = user.id;
+          done();
+        });
+    });
+  });
+
+  after(() => db.Document.sequelize.sync({ force: true }));
+
   describe('With existing document', () => {
     beforeEach(() =>
-      db.Role.create(helper.role)
-        .then((role) => {
-          userParams.RoleId = role.id;
-          return db.User.create(userParams);
-        })
-        .then((user) => {
-          documentParams.OwnerId = user.id;
-          return db.Document.create(documentParams);
-        })
+      db.Document.create(documentParams)
         .then((newDocument) => {
           document = newDocument;
-          request.post('/users/login')
-            .send(userParams)
-            .end((err, res) => {
-              token = res.body.token;
-            });
         }));
 
-    afterEach(() => db.Document.sequelize.sync({ force: true }));
+    afterEach(() => db.Document.destroy({ where: {} }));
 
     describe('Get all GET: /documents', () => {
       it('should return unauthorised without a token', (done) => {
@@ -53,7 +65,7 @@ describe('Document API', () => {
       });
     });
 
-    describe('Get Document GET: /document/:id', () => {
+    describe('Get Document GET: /documents/:id', () => {
       it('should get correct document', (done) => {
         request.get(`/documents/${document.id}`)
           .set({ Authorization: token })
@@ -127,18 +139,71 @@ describe('Document API', () => {
     });
   });
 
-  describe('Without existing document', () => {
-    beforeEach(() =>
-      db.Role.create(helper.role)
-        .then((role) => {
-          userParams.RoleId = role.id;
-          return db.User.create(userParams);
-        })
-        .then((user) => {
-          documentParams.OwnerId = user.id;
-        }));
+  describe('CONTEXT: Without existing document', () => {
+    before((done) => {
+      request.post('/users')
+        .send(ownerParams)
+        .end((err, res) => {
+          owner = res.body.user;
+          ownerToken = res.body.token;
+          done();
+        });
+    });
 
-    afterEach(() => db.Document.sequelize.sync({ force: true }));
+    describe('Get Private document GET: /documents/:id', () => {
+      before(() => {
+        privateDocumentParams.OwnerId = owner.id;
+
+        return db.Document.create(privateDocumentParams)
+          .then((newPrivateDocument) => {
+            privateDocument = newPrivateDocument;
+          });
+      });
+
+      it('should return permission denied if not owner', (done) => {
+        request.get(`/documents/${privateDocument.id}`)
+          .set({ Authorization: token })
+          .expect(403, done);
+      });
+
+      it('should return document for owner', (done) => {
+        request.get(`/documents/${privateDocument.id}`)
+          .set({ Authorization: ownerToken })
+          .expect(200, done);
+      });
+    });
+
+    describe('Get role document GET: /documents/:id', () => {
+      before(() => {
+        roleDocumentParams.OwnerId = owner.id;
+
+        return db.Document.create(roleDocumentParams)
+          .then((newRoleDocument) => {
+            roleDocument = newRoleDocument;
+          });
+      });
+
+      it('should return permission denied if in different role', (done) => {
+        request.get(`/documents/${roleDocument.id}`)
+          .set({ Authorization: token })
+          .expect(403, done);
+      });
+
+      it('should return document for owner', (done) => {
+        const sameRoleUserParams = helper.thirdUser;
+        sameRoleUserParams.RoleId = adminRole.id;
+
+        request.post('/users')
+          .send(sameRoleUserParams)
+          .end((err, res) => {
+            const sameRoleUserToken = res.body.token;
+
+            request.get(`/documents/${roleDocument.id}`)
+              .set({ Authorization: sameRoleUserToken })
+              .expect(200, done);
+          });
+      });
+    });
 
     describe('Create document POST: /document', () => {
       it('creates a new document', (done) => {
@@ -153,7 +218,7 @@ describe('Document API', () => {
       });
 
       it('fails for invalid document attributes', (done) => {
-        const invalidParams = {};
+        const invalidParams = { name: 'new document' };
         request.post('/documents')
           .set({ Authorization: token })
           .send(invalidParams)

@@ -1,16 +1,16 @@
 const expect = require('chai').expect;
 const Role = require('../../app/models').Role;
-const roleParams = require('../test.helper').role;
+const roleParams = require('../test.helper').regularRole;
 
 let role;
 
 describe('Role model', () => {
-  beforeEach(() => {
+  before(() => {
     role = Role.build(roleParams);
   });
 
   // clear DB after each test
-  afterEach(() => Role.sequelize.sync({ force: true }));
+  after(() => Role.sequelize.sync({ force: true }));
 
   describe('Create role', () => {
     it('creates a Role instance', () =>
