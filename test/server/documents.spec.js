@@ -4,11 +4,11 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const documentParams = helper.document;
+const documentParams = helper.publicDocument;
 const privateDocumentParams = helper.privateDocument;
 const roleDocumentParams = helper.roleDocument;
-const userParams = helper.user;
-const ownerParams = helper.user2;
+const userParams = helper.firstUser;
+const ownerParams = helper.secondUser;
 
 let document, privateDocument, roleDocument, user, owner, adminRole, regularRole, token, ownerToken;
 
@@ -190,7 +190,7 @@ describe('Document API', () => {
       });
 
       it('should return document for owner', (done) => {
-        const sameRoleUserParams = helper.user3;
+        const sameRoleUserParams = helper.thirdUser;
         sameRoleUserParams.RoleId = adminRole.id;
 
         request.post('/users')

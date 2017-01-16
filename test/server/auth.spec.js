@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const params = helper.user;
+const params = helper.firstUser;
 const roleParams = helper.adminRole;
 
 let token;

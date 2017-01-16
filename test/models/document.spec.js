@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const documentParams = helper.document;
-const userParams = helper.user;
+const documentParams = helper.publicDocument;
+const userParams = helper.firstUser;
 
 
 const notNullAttrs = ['title', 'content', 'OwnerId'];

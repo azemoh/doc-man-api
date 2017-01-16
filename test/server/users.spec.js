@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const userParams = helper.user;
+const userParams = helper.firstUser;
 const roleParams = helper.adminRole;
 
 let user, token;
@@ -20,15 +20,12 @@ describe('User API', () => {
 
   describe('With existing user', () => {
     beforeEach((done) => {
-      db.User.create(userParams)
-        .then((newUser) => {
-          user = newUser;
-          request.post('/users/login')
-            .send(userParams)
-            .end((err, res) => {
-              token = res.body.token;
-              done();
-            });
+      request.post('/users')
+        .send(userParams)
+        .end((err, res) => {
+          user = res.body.user;
+          token = res.body.token;
+          done();
         });
     });
 
@@ -47,16 +44,13 @@ describe('User API', () => {
       it('should return unauthorised if user is not an admin', (done) => {
         db.Role.create({ title: 'regular' })
           .then((role) => {
-            helper.user2.RoleId = role.id;
-            db.User.create(helper.user2)
-              .then(() => {
-                request.post('/users/login')
-                  .send(helper.user2)
-                  .end((err, res) => {
-                    request.get('/users')
-                      .set({ Authorization: res.body.token })
-                      .expect(403, done);
-                  });
+            helper.secondUser.RoleId = role.id;
+            request.post('/users')
+              .send(helper.secondUser)
+              .end((err, res) => {
+                request.get('/users')
+                  .set({ Authorization: res.body.token })
+                  .expect(403, done);
               });
           });
       });

@@ -15,7 +15,8 @@ module.exports = {
   type: {
     title: 'legal'
   },
-  user: {
+
+  firstUser: {
     username: faker.internet.userName(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -23,7 +24,7 @@ module.exports = {
     password: faker.internet.password()
   },
 
-  user2: {
+  secondUser: {
     username: faker.internet.userName(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -31,7 +32,7 @@ module.exports = {
     password: faker.internet.password()
   },
 
-  user3: {
+  thirdUser: {
     username: faker.internet.userName(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -39,7 +40,7 @@ module.exports = {
     password: faker.internet.password()
   },
 
-  document: {
+  publicDocument: {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph()
   },

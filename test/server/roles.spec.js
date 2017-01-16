@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const db = require('../../app/models');
 const helper = require('../test.helper');
 
-const userParams = helper.user;
+const userParams = helper.firstUser;
 
 let role, token;
 
@@ -140,9 +140,9 @@ describe('Roles API', () => {
       it('fails if user is not an admin', (done) => {
         db.Role.create(helper.regularRole)
           .then((newRole) => {
-            helper.user2.RoleId = newRole.id;
+            helper.secondUser.RoleId = newRole.id;
             request.post('/users')
-              .send(helper.user2)
+              .send(helper.secondUser)
               .end((err, res) => {
                 request.post('/roles')
                   .set({ Authorization: res.body.token })
