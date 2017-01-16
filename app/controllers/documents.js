@@ -1,5 +1,11 @@
 const db = require('../models');
 
+const documentAccess = {
+  PRIVATE: 'private',
+  PUBLIC: 'public',
+  ROLE: 'role'
+};
+
 const documentsCtrl = {
   /**
    * Get all documents
@@ -51,7 +57,20 @@ const documentsCtrl = {
             .send({ message: `Document with id: ${req.params.id} not found` });
         }
 
-        res.send(document);
+        if ((document.access === documentAccess.PUBLIC) ||
+          (document.OwnerId === req.decoded.UserId)) {
+          return res.send(document);
+        }
+
+        db.User.findById(document.OwnerId)
+          .then((owner) => {
+            if (owner.RoleId === req.decoded.RoleId) {
+              return res.send(document);
+            }
+
+            res.status(403)
+              .send({ message: 'You cannot access this document.' });
+          });
       });
   },
 

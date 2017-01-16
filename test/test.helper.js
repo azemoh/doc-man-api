@@ -31,6 +31,14 @@ module.exports = {
     password: faker.internet.password()
   },
 
+  user3: {
+    username: faker.internet.userName(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  },
+
   document: {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph()
@@ -40,5 +48,11 @@ module.exports = {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph(),
     access: 'private'
+  },
+
+  roleDocument: {
+    title: faker.company.catchPhrase(),
+    content: faker.lorem.paragraph(),
+    access: 'role'
   }
 };
