@@ -54,6 +54,7 @@ The following are some sample request and response form the API.
 - [Documents](#documents)
   - [List documents](#list-documents)
   - [User documents](#user-documents)
+  - [Search documents](#search-documents)
   - [Create document](#create-document)
   - [Get document](#get-document)
   - [Edit document](#edit-document)
@@ -279,6 +280,37 @@ Endpoint for document resource.
   }, {
     "id": 2,
     "title": "De-engineered explicit attitude",
+    "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
+    "OwnerId": 1,
+    "access": "private",
+    "createdAt": "2016-12-05T05:51:51.217Z",
+    "updatedAt": "2016-12-05T05:51:51.217Z"
+  }
+]
+```
+
+### Search Documents
+
+#### Request
+- Endpoint: GET: `/documents/search?query=`
+- Requires: Authentication
+
+#### Response
+- Status: `200: OK`
+- Body `(application/json)`
+```json
+[
+  {
+    "id": 1,
+    "title": "Self-enabling scalable neural-net",
+    "content": "Ad cumque odit fuga qui et. Hic sed nobis et dolorem. Saepe aut fugiat magni. Placeat sit quibusdam cum ut.",
+    "OwnerId": 2,
+    "access": "role",
+    "createdAt": "2016-12-06T06:44:54.792Z",
+    "updatedAt": "2016-12-06T06:44:54.792Z"
+  }, {
+    "id": 2,
+    "title": "De-engineered scalable attitude",
     "content": "Asperiores doloribus voluptates quaerat aut voluptate quod quae. Placeat dicta ut aut dignissimos voluptas et non adipisci numquam. Consectetur accusamus sunt voluptas illum nulla. Impedit minima omnis doloribus eos aspernatur.",
     "OwnerId": 1,
     "access": "private",

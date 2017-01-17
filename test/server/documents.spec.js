@@ -7,6 +7,7 @@ const helper = require('../test.helper');
 const documentParams = helper.publicDocument;
 const privateDocumentParams = helper.privateDocument;
 const roleDocumentParams = helper.roleDocument;
+const documentParamsArray = helper.documentArray();
 const userParams = helper.firstUser;
 const ownerParams = helper.secondUser;
 
@@ -35,7 +36,7 @@ describe('Document API', () => {
 
   after(() => db.Document.sequelize.sync({ force: true }));
 
-  describe('With existing document', () => {
+  describe('CONTEXT: With existing document', () => {
     beforeEach(() =>
       db.Document.create(documentParams)
         .then((newDocument) => {
@@ -223,6 +224,37 @@ describe('Document API', () => {
           .set({ Authorization: token })
           .send(invalidParams)
           .expect(400, done);
+      });
+    });
+  });
+
+  describe('CONTEXT: With multiple documents', () => {
+    before(() => db.Document.bulkCreate(documentParamsArray));
+
+    describe('Document Pagination', () => {
+      it('uses query params "limit" to limit the result', (done) => {
+        request.get('/documents?limit=5')
+          .set({ Authorization: token })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.length).to.equal(5);
+            done();
+          });
+      });
+    });
+
+    describe('Document search', () => {
+      it('searchs and returns the correct documents', (done) => {
+        const query = documentParamsArray[4].content.substr(0, 10);
+        const matcher = new RegExp(query);
+
+        request.get(`/documents/search?query=${query}`)
+          .set({ Authorization: token })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(matcher.test(res.body[0].content)).to.be.true;
+            done();
+          });
       });
     });
   });

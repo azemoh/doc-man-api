@@ -128,6 +128,23 @@ const documentsCtrl = {
       .then((documents) => {
         res.send(documents);
       });
+  },
+
+  search(req, res) {
+    const query = {
+      where: {
+        $or: [
+          { title: { $like: `%${req.query.query}%` } },
+          { content: { $like: `%${req.query.query}%` } }
+        ]
+      },
+      order: [['createdAt', 'DESC']]
+    };
+
+    db.Document.findAll(query)
+      .then((documents) => {
+        res.send(documents);
+      });
   }
 };
 

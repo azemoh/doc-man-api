@@ -7,6 +7,8 @@ router.route('/')
   .get(Auth.verifyToken, documentsCtrl.index)
   .post(Auth.verifyToken, documentsCtrl.create);
 
+router.get('/search', Auth.verifyToken, documentsCtrl.search);
+
 router.route('/:id')
   .get(Auth.verifyToken, documentsCtrl.show)
   .put(Auth.verifyToken, documentsCtrl.edit)
