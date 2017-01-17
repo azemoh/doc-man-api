@@ -55,5 +55,19 @@ module.exports = {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph(),
     access: 'role'
+  },
+
+  documentArray() {
+    const documentAttributes = [];
+
+    for (let i = 0; i <= 10; i += 1) {
+      documentAttributes.push({
+        title: faker.company.catchPhrase(),
+        content: faker.lorem.paragraph(),
+        OwnerId: 1
+      });
+    }
+
+    return documentAttributes;
   }
 };
