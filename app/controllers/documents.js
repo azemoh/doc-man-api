@@ -16,8 +16,15 @@ const documentsCtrl = {
    */
   index(req, res) {
     const query = {
+      where: {
+        $or: [
+          { access: 'public' },
+          { OwnerId: req.decoded.UserId }
+        ]
+      },
       limit: req.query.limit || null,
-      offset: req.query.offset || null
+      offset: req.query.offset || null,
+      order: [['createdAt', 'DESC']]
     };
 
     db.Document.findAll(query).then((documents) => {
@@ -130,16 +137,51 @@ const documentsCtrl = {
       });
   },
 
+  /**
+   * Get all documents that belongs to a user
+   * Route: GET: /search?query={}&published={}&role=1
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void} no returns
+   */
   search(req, res) {
+    const queryString = req.query.query;
+    const role = Math.abs(req.query.role, 10);
+    const publishedDate = req.query.publishedDate;
+    const order = publishedDate && /^ASC$/i.test(publishedDate)
+            ? publishedDate : 'DESC';
+
     const query = {
       where: {
-        $or: [
-          { title: { $like: `%${req.query.query}%` } },
-          { content: { $like: `%${req.query.query}%` } }
-        ]
+        $and: [{ $or: [
+          { access: 'public' },
+          { OwnerId: req.decoded.UserId }
+        ] }],
       },
-      order: [['createdAt', 'DESC']]
+      limit: req.query.limit || null,
+      offset: req.query.offset || null,
+      order: [['createdAt', order]]
     };
+
+    if (queryString) {
+      query.where.$and.push({ $or: [
+        { title: { $like: `%${queryString}%` } },
+        { content: { $like: `%${queryString}%` } }
+      ] });
+    }
+
+    if (role) {
+      query.include = [{
+        model: db.User,
+        as: 'Owner',
+        attributes: [],
+        include: [{
+          model: db.Role,
+          attributes: [],
+          where: { id: role }
+        }]
+      }];
+    }
 
     db.Document.findAll(query)
       .then((documents) => {

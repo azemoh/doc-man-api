@@ -13,6 +13,9 @@ const ownerParams = helper.secondUser;
 
 let document, privateDocument, roleDocument, user, owner, adminRole, regularRole, token, ownerToken;
 
+const compareDates = (dateA, dateB) =>
+  new Date(dateA).getTime() <= new Date(dateB).getTime();
+
 describe('Document API', () => {
   before((done) => {
     db.Role.bulkCreate([helper.regularRole, helper.adminRole], {
@@ -241,6 +244,23 @@ describe('Document API', () => {
             done();
           });
       });
+
+      it('is returned in order of their published dates', (done) => {
+        request.get('/documents?limit=5')
+          .set({ Authorization: token })
+          .end((err, res) => {
+            const documents = res.body;
+            let flag = true;
+
+            for (let i = 0; i < documents.length - 1; i += 1) {
+              flag = compareDates(documents[i].createdAt, documents[i + 1].createdAt);
+              if (!flag) break;
+            }
+
+            expect(flag).to.be.true;
+            done();
+          });
+      });
     });
 
     describe('Document search', () => {
@@ -253,6 +273,55 @@ describe('Document API', () => {
           .end((err, res) => {
             expect(res.status).to.equal(200);
             expect(matcher.test(res.body[0].content)).to.be.true;
+            done();
+          });
+      });
+
+      it('uses query params "limit" to limit the result', (done) => {
+        request.get('/documents/search?limit=5')
+          .set({ Authorization: token })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.length).to.equal(5);
+            done();
+          });
+      });
+
+      it('uses query params "role" to get documents by role users', (done) => {
+        request.get('/documents/search?role=2')
+          .set({ Authorization: token })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            const query = {
+              where: { id: res.body[0].id },
+              include: [{
+                model: db.User,
+                as: 'Owner',
+                include: [{ model: db.Role }]
+              }]
+            };
+
+            db.Document.findAll(query)
+              .then((documents) => {
+                expect(documents[0].Owner.Role.id).to.equal(2);
+                done();
+              });
+          });
+      });
+
+      it('uses query params "publishedDate" to set the order', (done) => {
+        request.get('/documents?publishedDate=ASC')
+          .set({ Authorization: token })
+          .end((err, res) => {
+            const documents = res.body;
+            let flag = false;
+
+            for (let i = 0; i < documents.length - 1; i += 1) {
+              flag = compareDates(documents[i].createdAt, documents[i + 1].createdAt);
+              if (flag) break;
+            }
+
+            expect(flag).to.be.true;
             done();
           });
       });

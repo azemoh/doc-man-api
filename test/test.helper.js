@@ -12,6 +12,10 @@ module.exports = {
     title: 'regular'
   },
 
+  role: {
+    title: 'author'
+  },
+
   type: {
     title: 'legal'
   },

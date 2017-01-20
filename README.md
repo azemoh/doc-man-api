@@ -292,8 +292,14 @@ Endpoint for document resource.
 ### Search Documents
 
 #### Request
-- Endpoint: GET: `/documents/search?query=`
+- Endpoint: GET: `/documents/search?query=query string&limit=5&offset=5&publishedDate=ASC&role=2`
 - Requires: Authentication
+- Optional parameters
+  - `query` Search query string
+  - `limit` Number of items to return.
+  - `offset` Number of items to skip.
+  - `publishedDate` Order to return document `DESC|ASC`.
+  - `role` Role of document owners.
 
 #### Response
 - Status: `200: OK`
